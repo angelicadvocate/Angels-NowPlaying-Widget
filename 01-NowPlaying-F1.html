@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angel's NowPlaying Widget</title>
+  <link rel="stylesheet" href="01-NowPlaying-F1-Styles.css" />
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script>
+    let currentArtist, currentTrack;
+    let isVisible = false;
+
+function fadeOutText() {
+  $("#artist-name, #track-title").css({ opacity: 0 });
+  $("#artist-name, #track-title").removeClass("marquee");
+}
+
+    function updateTextContent() {
+      $("#artist-name").html(currentArtist);
+      $("#track-title").html(currentTrack);
+    }
+
+function applyMarquee($el) {
+  const containerWidth = $el.parent()[0].offsetWidth;
+  const textWidth = $el[0].scrollWidth;
+  
+  // Start just outside right edge (container width)
+  const start = containerWidth + "px";
+  
+  // End just outside left edge (negative textWidth)
+  const end = (-textWidth) + "px";
+  
+  // Duration: control speed (e.g. 100px per second)
+  const distance = containerWidth + textWidth;
+  const durationSeconds = distance / 100;
+  
+  $el.css({
+    opacity: 1,
+    "--marquee-start": start,
+    "--marquee-end": end,
+    "--marquee-duration": durationSeconds + "s",
+    animationName: "marqueeAnim",
+    animationTimingFunction: "linear",
+    animationIterationCount: "infinite",
+    animationDuration: durationSeconds + "s",
+  });
+}    
+
+function fadeInText() {
+  const $artist = $("#artist-name");
+  const $track = $("#track-title");
+
+  const textBoxWidth = $artist.parent()[0].offsetWidth;
+  const artistOverflow = $artist[0].scrollWidth > textBoxWidth;
+  const trackOverflow = $track[0].scrollWidth > textBoxWidth;
+
+  $artist.css({ opacity: 1, animationName: "none" });
+  $track.css({ opacity: 1, animationName: "none" });
+
+  if (artistOverflow) applyMarquee($artist);
+  if (trackOverflow) applyMarquee($track);
+}
+
+
+    function fetchNowPlaying() {
+      $.get("Artist.txt", function(data) {
+        currentArtist = data.replace(/&/g, "&amp;");
+      }).then(() => {
+        return $.get("Track.txt", function(data) {
+          currentTrack = data.replace(/&/g, "&amp;");
+        });
+      }).then(() => {
+        renderNowPlaying();
+      });
+
+      setTimeout(fetchNowPlaying, 2000);
+    }
+
+    function renderNowPlaying() {
+      const $track = $("#track-title");
+      if (currentTrack !== $track.html()) {
+        if (currentTrack.length > 0 && !isVisible) {
+          $("#container").animate({ marginLeft: "0" }, 500);
+          isVisible = true;
+        }
+        if (currentTrack.length === 0 && isVisible) {
+          $("#container").animate({ marginLeft: "-500px" }, 500);
+          isVisible = false;
+        }
+
+        fadeOutText();
+        setTimeout(updateTextContent, 300);
+        setTimeout(fadeInText, 400);
+
+        const artworkPath = "Artwork.png?t=" + encodeURIComponent(currentTrack + currentArtist);
+        $("#cover").attr("src", artworkPath);
+        $("#cover-fade").fadeOut(500, function() {
+          $(this).attr("src", artworkPath).fadeIn(500);
+        });
+      }
+    }
+
+    $(document).ready(fetchNowPlaying);
+  </script>
+</head>
+<body>
+  <div id="container">
+    <img id="cover" />
+    <img id="cover-fade" src="Artwork.png" />
+    <div id="text-content">
+      <div class="text-line"><span id="artist-name"></span></div>
+      <div class="text-line"><span id="track-title"></span></div>
+    </div>
+  </div>
+</body>
+</html>

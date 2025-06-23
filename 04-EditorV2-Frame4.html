@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EditorV2-Frame4</title>
+  <link rel="stylesheet" href="04-EditorV2-F4-Styles.css" />
+</head>
+<body>
+  <main id="site">
+    <section id="controls">
+      <label for="artist_name" class="info">Artist Name Size</label>
+      <input type="range" min="8" max="45" value="20" class="slider" id="artist_name"> 
+
+      <label for="track_title" class="info">Track Title Size</label>
+      <input type="range" min="8" max="53" value="32" class="slider" id="track_title">  
+
+      <label for="spacing" class="info">Spacing Horizontal</label>
+      <input type="range" min="-12" max="20" value="8" class="slider" id="spacing">  
+
+      <label class="info" for="imageSize">Album Art Size</label>
+      <input type="range" min="40" max="300" value="110" class="slider" id="imageSize">
+
+      <label for="contentPadding" class="info">Text Left Padding</label>
+      <input type="range" min="0" max="200" value="20" class="slider" id="contentPadding">
+
+      <label for="imagePadding" class="info">Image Left Padding</label>
+      <input type="range" min="-150" max="50" value="25" class="slider" id="imagePadding">
+
+      <label for="color" class="info">Artist Name Color</label>
+      <input type="range" min="0" max="355" value="355" class="slider" id="color">
+        <div id="colorDisplay" class="info" style="margin-top: 5px;">
+          Color Code: <code id="colorCode">#ff66aa</code>
+        </div>
+
+    </section>
+
+<section id="sample">
+  <div id="background">
+    <div id="image-wrapper">
+  <img id="image" src="SampleAlbum.png" alt="Album Art" />
+    </div>
+    <div id="content">
+      <div id="text-box">
+        <p id="artist">Sample Artist</p>
+        <p id="song">Sample Song Title</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="save">Save</button>
+    </div>
+  </main>
+
+  <script>
+    const artistSize = document.getElementById("artist_name");
+    const songSize = document.getElementById("track_title");
+    const spacing = document.getElementById("spacing");
+    const color = document.getElementById("color");
+    const artistEl = document.getElementById("artist");
+    const songEl = document.getElementById("song");
+    const image = document.getElementById('image');
+    const imageSizeSlider = document.getElementById('imageSize');
+    const contentPaddingSlider = document.getElementById('contentPadding');
+    const imagePaddingSlider = document.getElementById('imagePadding');
+
+    let imagePaddingValue = imagePaddingSlider.value;    
+    let contentPaddingValue = contentPaddingSlider.value;
+    let imageSizeValue = imageSizeSlider.value;
+    let artistSizeValue = artistSize.value;
+    let songSizeValue = songSize.value;
+    let spacingValue = spacing.value;
+    let colorValue = color.value;
+
+function applyPreview() {
+  artistEl.style.fontSize = artistSizeValue + "px";
+  songEl.style.fontSize = songSizeValue + "px";
+  artistEl.style.marginBottom = spacingValue + "px";
+  artistEl.style.color = `hsl(${colorValue}, 100%, 68%)`;
+  
+    // Convert HSL to hex for OBS
+      function hslToHex(h, s, l) {
+        s /= 100;
+        l /= 100;
+        const k = n => (n + h / 30) % 12;
+        const a = s * Math.min(l, 1 - l);
+        const f = n =>
+          Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))));
+        return "#" + [f(0), f(8), f(4)].map(x => x.toString(16).padStart(2, '0')).join('');
+      }
+      const hex = hslToHex(colorValue, 100, 68);
+      document.getElementById("colorCode").textContent = hex;
+
+  image.style.width = imageSizeValue + "px";
+  image.style.height = imageSizeValue + "px";
+  const content = document.getElementById('content');
+  content.style.padding = `0 20px 0 ${contentPaddingValue}px`;
+  const imageWrapper = document.getElementById('image-wrapper');
+  imageWrapper.style.marginLeft = imagePaddingValue + "px";
+}
+
+
+    function generateCSS() {
+      return `
+/* /static css placeholder/ */
+
+#background {
+  justify-content: flex-start;
+  background-color: #121212;
+  width: 350px;
+  height: 70px;
+  overflow: hidden;
+  margin-left: -500px;
+  padding: 0;
+}
+
+#smalldiv {
+  height: 70px;
+  overflow: hidden;
+  margin-top: -70px;
+  margin-left: 70px;
+  padding: 0;
+}
+
+#image {
+  width: 70px;
+  height: 70px;
+  padding: 0;
+  margin-left: 0;
+  position: relative;
+  z-index: 5;
+}
+
+body {
+  background-color: #ffffff;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#artist {
+  color: hsl(${colorValue}, 100%, 68%);
+  text-transform: uppercase;
+  font-family: "proxima-nova", sans-serif;
+  margin-top: 5px;
+  margin-left: 7px;
+  font-weight: 600;
+  font-size: ${artistSizeValue}px;
+  margin-bottom: ${spacingValue}px;
+  display: inline-block;
+}
+
+#song {
+  color: #ffffff;
+  font-size: ${songSizeValue}px;
+  font-family: "proxima-nova", sans-serif;
+  margin-top: -5px;
+  margin-left: 7px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+p {
+  white-space: nowrap;
+}
+      `.trim();
+    }
+
+    function downloadCSS(filename, content) {
+      const blob = new Blob([content], {type: "text/css"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 0);
+    }
+
+[artistSize, songSize, spacing, color, imageSizeSlider, contentPaddingSlider, imagePaddingSlider].forEach((slider) => {
+  slider.addEventListener("input", (e) => {
+    if (e.target === artistSize) artistSizeValue = e.target.value;
+    if (e.target === songSize) songSizeValue = e.target.value;
+    if (e.target === spacing) spacingValue = e.target.value;
+    if (e.target === color) colorValue = e.target.value;
+    if (e.target === imageSizeSlider) imageSizeValue = e.target.value;
+    if (e.target === contentPaddingSlider) contentPaddingValue = e.target.value;
+    if (e.target === imagePaddingSlider) imagePaddingValue = e.target.value;
+    applyPreview();
+  });
+});
+
+    document.getElementById("save").addEventListener("click", () => {
+      // Update preview for visual feedback
+      applyPreview();
+      // Trigger download of generated CSS
+      downloadCSS("GeneratedSongStyle.css", generateCSS());
+    });
+
+    applyPreview();
+
+  </script>
+</body>
+</html>

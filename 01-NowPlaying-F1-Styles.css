@@ -1,0 +1,100 @@
+:root {
+  --scale: 2;
+  --highlight: hsl(221, 82%, 58%);
+  --font-main: "proxima-nova", sans-serif;
+}
+
+html, body {
+  width: calc(400px * var(--scale));
+  height: calc(200px * var(--scale));
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+body {
+  background: url('Frame1.png');
+  background-repeat: no-repeat;
+  background-position: calc(50% + 100px) center;
+  background-size: contain;
+  font-family: var(--font-main), sans-serif;
+  color: white;
+}
+
+
+/* Album artwork */
+#cover,
+#cover-fade {
+  width: calc(90px * var(--scale));
+  height: calc(90px * var(--scale));
+  object-fit: cover;
+  border-radius: calc(4px * var(--scale));
+  position: absolute;
+  left: calc(56px * var(--scale));
+  top: calc(55px * var(--scale));
+}
+
+#cover-fade {
+  z-index: 2;
+}
+
+/* Text content wrapper */
+#text-content {
+  position: absolute;
+  top: calc(64px * var(--scale));
+  left: calc(150px * var(--scale));
+  width: calc(296px * var(--scale));
+  display: flex;
+  flex-direction: column;
+  gap: calc(6px * var(--scale));
+  overflow: hidden;
+}
+
+/* Each line container */
+.text-line {
+  width: calc(300px * var(--scale));
+  overflow: hidden;
+  position: relative;
+}
+
+/* Scrolling span */
+.text-line span {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translateX(var(--marquee-start, 0));
+}
+
+/* Marquee animation */
+.marquee {
+  animation-name: marqueeAnim;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--marquee-duration, 10s);
+}
+
+@keyframes marqueeAnim {
+  0% {
+    transform: translateX(var(--marquee-start, 0));
+  }
+  100% {
+    transform: translateX(var(--marquee-end, 0));
+  }
+}
+
+/* Font sizes */
+#track-title {
+  font-size: calc(26px * var(--scale));
+  font-weight: bold;
+  opacity: 0;
+}
+
+#artist-name {
+  font-size: calc(18px * var(--scale));
+  font-weight: bold;
+  opacity: 0;
+}
+
