@@ -75,6 +75,8 @@
     let spacingValue = spacing.value;
     let colorValue = color.value;
 
+    const scale = 2;
+
 function applyPreview() {
   artistEl.style.fontSize = artistSizeValue + "px";
   songEl.style.fontSize = songSizeValue + "px";
@@ -107,64 +109,143 @@ function applyPreview() {
       return `
 /* /static css placeholder/ */
 
+:root {
+  --highlight: hsl(${colorValue}, 82%, 58%);
+  --font-main: "proxima-nova", sans-serif;
+}
+
+/* Reset and base styles */
+body {
+  background: #ebebeb;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Widget container */
 #background {
-  justify-content: flex-start;
-  background-color: #121212;
-  width: 350px;
-  height: 70px;
-  overflow: hidden;
-  margin-left: -500px;
-  padding: 0;
-}
-
-#smalldiv {
-  height: 70px;
-  overflow: hidden;
-  margin-top: -70px;
-  margin-left: 70px;
-  padding: 0;
-}
-
-#image {
-  width: 70px;
-  height: 70px;
-  padding: 0;
-  margin-left: 0;
   position: relative;
+  width: ${400 * scale}px;
+  min-width: ${400 * scale}px;
+  max-width: ${400 * scale}px;
+  height: ${90 * scale}px;
+  background-image: url('../static_assets/Frame1.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: ${8 * scale}px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: visible;
+}
+
+/* Album art image (main) */
+#image {
+  width: ${imageSizeValue * scale}px;
+  height: ${imageSizeValue * scale}px;
+  object-fit: cover;
+  margin-left: ${imagePaddingValue * scale}px;
+  border-radius: ${4 * scale}px;
+  display: block;
+}
+
+/* Fading overlay image */
+#image-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  overflow: visible;
+  margin-left: 0px;
+  padding-left: 0;
   z-index: 5;
 }
 
-body {
-  background-color: #ffffff;
-  padding: 0 !important;
-  margin: 0 !important;
+/* Flex container for image + text */
+#content {
+  flex: 1;
+  overflow: hidden;
+  padding: 0 ${20 * scale}px 0 ${contentPaddingValue * scale}px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-#artist {
-  color: hsl(${colorValue}, 100%, 68%);
-  text-transform: uppercase;
-  font-family: "proxima-nova", sans-serif;
-  margin-top: 5px;
-  margin-left: 7px;
-  font-weight: 600;
-  font-size: ${artistSizeValue}px;
-  margin-bottom: ${spacingValue}px;
-  display: inline-block;
+/* Text container */
+#text-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  flex-grow: 1;
+  overflow: hidden;
+  text-align: left;
 }
 
+#text-box p,
+#artist,
 #song {
-  color: #ffffff;
-  font-size: ${songSizeValue}px;
-  font-family: "proxima-nova", sans-serif;
-  margin-top: -5px;
-  margin-left: 7px;
+  width: 200%;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Artist name styling */
+#artist {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: ${artistSizeValue * scale}px;
+  margin-bottom: ${spacingValue * scale}px;
+  color: var(--highlight);
+}
+
+/* Song title styling */
+#song {
   font-weight: bold;
-  display: inline-block;
+  font-size: ${songSizeValue * scale}px;
+  color: white;
+  margin: 0;
 }
 
 p {
   white-space: nowrap;
 }
+
+/* Scrolling span */
+#text-box span {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translateX(var(--marquee-start, 0));
+}
+
+/* Marquee animation */
+.marquee {
+  animation-name: marqueeAnim;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--marquee-duration, 10s);
+}
+
+@keyframes marqueeAnim {
+  0% {
+    transform: translateX(var(--marquee-start, 0));
+  }
+  100% {
+    transform: translateX(var(--marquee-end, 0));
+  }
+}
+
       `.trim();
     }
 
@@ -199,7 +280,7 @@ p {
       // Update preview for visual feedback
       applyPreview();
       // Trigger download of generated CSS
-      downloadCSS("GeneratedSongStyle.css", generateCSS());
+      downloadCSS("01-NowPlaying-F1-Styles.css", generateCSS());
     });
 
     applyPreview();
