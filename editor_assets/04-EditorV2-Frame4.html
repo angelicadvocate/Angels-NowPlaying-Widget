@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EditorV2-Frame3</title>
-  <link rel="stylesheet" href="03-EditorV2-F3-Styles.css" />
+  <title>EditorV2-Frame4</title>
+  <link rel="stylesheet" href="04-EditorV2-F4-Styles.css" />
 </head>
 <body>
   <main id="site">
     <section id="controls">
       <label for="artist_name" class="info">Artist Name Size</label>
-      <input type="range" min="8" max="30" value="19" class="slider" id="artist_name"> 
+      <input type="range" min="8" max="45" value="20" class="slider" id="artist_name"> 
 
       <label for="track_title" class="info">Track Title Size</label>
-      <input type="range" min="8" max="30" value="26" class="slider" id="track_title">  
+      <input type="range" min="8" max="53" value="32" class="slider" id="track_title">  
 
       <label for="spacing" class="info">Spacing Horizontal</label>
-      <input type="range" min="0" max="20" value="8" class="slider" id="spacing">  
+      <input type="range" min="-12" max="20" value="8" class="slider" id="spacing">  
 
       <label class="info" for="imageSize">Album Art Size</label>
-      <input type="range" min="40" max="400" value="250" class="slider" id="imageSize">
+      <input type="range" min="40" max="300" value="110" class="slider" id="imageSize">
 
       <label for="contentPadding" class="info">Text Left Padding</label>
-      <input type="range" min="0" max="50" value="0" class="slider" id="contentPadding">
+      <input type="range" min="0" max="200" value="20" class="slider" id="contentPadding">
 
       <label for="imagePadding" class="info">Image Left Padding</label>
-      <input type="range" min="-50" max="50" value="0" class="slider" id="imagePadding">
+      <input type="range" min="-150" max="50" value="25" class="slider" id="imagePadding">
 
       <label for="color" class="info">Artist Name Color</label>
       <input type="range" min="0" max="355" value="355" class="slider" id="color">
@@ -35,34 +35,25 @@
 
     </section>
 
-<section id="sample-and-save" style="flex: 1;">
-  <div class="slider-group">
-    <label for="imageMarginTop" class="info">Image Top Margin</label>
-    <input type="range" min="-100" max="100" value="12" class="slider" id="imageMarginTop">
-
-    <label for="textMarginTop" class="info" style="display: block; margin-top: 14px;">Text Top Margin</label>
-    <input type="range" min="-100" max="100" value="-15" class="slider" id="textMarginTop">
-
-  </div>
-
-  <div id="sample">
-    <div id="background">
-      <div id="image-wrapper">
-        <img id="image" src="SampleAlbum.png" alt="Album Art" />
-      </div>
-      <div id="content">
-        <div id="text-box">
-          <p id="artist">Sample Artist</p>
-          <p id="song">Sample Song Title</p>
-        </div>
+<section id="sample">
+  <div id="background">
+    <div id="image-wrapper">
+  <img id="image" src="../static_assets/SampleAlbum.png" alt="Album Art" />
+    </div>
+    <div id="content">
+      <div id="text-box">
+        <p id="artist">Sample Artist</p>
+        <p id="song">Sample Song Title</p>
       </div>
     </div>
   </div>
-
-  <div style="text-align: center; margin-top: 20px;">
-    <button id="save">Save</button>
-  </div>
 </section>
+
+    
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="save">Save</button>
+    </div>
+  </main>
 
   <script>
     const artistSize = document.getElementById("artist_name");
@@ -75,12 +66,7 @@
     const imageSizeSlider = document.getElementById('imageSize');
     const contentPaddingSlider = document.getElementById('contentPadding');
     const imagePaddingSlider = document.getElementById('imagePadding');
-    const imageMarginTopSlider = document.getElementById('imageMarginTop');
-    
-    const textMarginTopSlider = document.getElementById('textMarginTop');
-    let textMarginTopValue = textMarginTopSlider.value;
-    
-    let imageMarginTopValue = imageMarginTopSlider.value;
+
     let imagePaddingValue = imagePaddingSlider.value;    
     let contentPaddingValue = contentPaddingSlider.value;
     let imageSizeValue = imageSizeSlider.value;
@@ -114,9 +100,6 @@ function applyPreview() {
   content.style.padding = `0 20px 0 ${contentPaddingValue}px`;
   const imageWrapper = document.getElementById('image-wrapper');
   imageWrapper.style.marginLeft = imagePaddingValue + "px";
-  imageWrapper.style.marginTop = imageMarginTopValue + "px";
-  const textBox = document.getElementById('text-box');
-  textBox.style.marginTop = textMarginTopValue + "px";
 }
 
 
@@ -199,7 +182,7 @@ p {
       }, 0);
     }
 
-[artistSize, songSize, spacing, color, imageSizeSlider, contentPaddingSlider, imagePaddingSlider, imageMarginTopSlider, textMarginTopSlider].forEach((slider) => {
+[artistSize, songSize, spacing, color, imageSizeSlider, contentPaddingSlider, imagePaddingSlider].forEach((slider) => {
   slider.addEventListener("input", (e) => {
     if (e.target === artistSize) artistSizeValue = e.target.value;
     if (e.target === songSize) songSizeValue = e.target.value;
@@ -208,12 +191,9 @@ p {
     if (e.target === imageSizeSlider) imageSizeValue = e.target.value;
     if (e.target === contentPaddingSlider) contentPaddingValue = e.target.value;
     if (e.target === imagePaddingSlider) imagePaddingValue = e.target.value;
-    if (e.target === imageMarginTopSlider) imageMarginTopValue = e.target.value;
-    if (e.target === textMarginTopSlider) textMarginTopValue = e.target.value;
     applyPreview();
   });
 });
-
 
     document.getElementById("save").addEventListener("click", () => {
       // Update preview for visual feedback

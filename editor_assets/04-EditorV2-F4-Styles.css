@@ -5,7 +5,7 @@
 
 /* Reset and base styles */
 body {
-  background: #ffffff;
+  background: #ebebeb;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -77,15 +77,15 @@ body {
 /* Big container for album art + text */
 #background {
   position: relative;
-  width: 400px;
-  min-width: 400px;
-  max-width: 400px;
-  height: 90px;
-  background-image: url('Frame1.png');
+  width: 1600px;
+  min-width: 1600px;
+  max-width: 1600px;
+  height: 130px;
+  background-image: url('../static_assets/Frame4_still.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border-radius: 8px;
+  border-radius: 0px;
   box-sizing: border-box;
   display: flex;
   align-items: center;

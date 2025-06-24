@@ -5,7 +5,7 @@
 
 /* Reset and base styles */
 body {
-  background: #ffffff;
+  background: #ebebeb;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -64,21 +64,6 @@ body {
   border-radius: 50%;
 }
 
-.slider-group {
-  margin-bottom: 50px;
-}
-
-.slider-group .info {
-  display: block;
-  margin-bottom: 14px;
-  font-size: 20px;
-  text-align: center;
-}
-
-.slider-group .slider {
-  width: 100%;
-}
-
 /* Sample preview section */
 #sample {
   display: flex;
@@ -92,18 +77,17 @@ body {
 /* Big container for album art + text */
 #background {
   position: relative;
-  width: 300px;
-  min-width: 300px;
-  max-width: 300px;
-  height: 380px;
-  background-image: url('Frame3.png');
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  height: 90px;
+  background-image: url('../static_assets/Frame1.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -137,7 +121,6 @@ body {
   object-fit: cover;
   border-radius: 4px;
   display: block;
-  margin-top: var(--image-margin-top, 0px); /* Default to 0, will be set dynamically */
 }
 
 /* Text container next to album art */
@@ -207,19 +190,4 @@ body {
 /* Utility */
 p {
   white-space: nowrap;
-}
-
-#site {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-}
-
-#layout {
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
 }

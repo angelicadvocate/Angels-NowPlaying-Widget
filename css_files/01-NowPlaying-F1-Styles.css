@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-  background: url('Frame1.png');
+  background: url('/static_assets/Frame1.png');
   background-repeat: no-repeat;
   background-position: calc(50% + 100px) center;
   background-size: contain;

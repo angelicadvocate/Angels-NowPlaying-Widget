@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NowPlaying Widget Editor</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      margin-left: 20px;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .card button {
+      background-color: #3b82f6;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .card button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Angel's NowPlaying Widget - Editor Dashboard</h1>
+
+  <div class="grid">
+    <div class="card">
+      <img src="static_assets/f1preview.png" alt="Template 1 Thumbnail" />
+      <p>A sleek horizontal layout with smaller album artwork and a progress bar. Great for minimal, unobtrusive overlays.</p>
+      <a href="editor_assets/01-EditorV2-Frame1.html"><button>Edit Template 1</button></a>
+    </div>
+
+    <div class="card">
+      <img src="static_assets/f2preview.png" alt="Template 2 Thumbnail" />
+      <p>A bold horizontal layout featuring larger album artwork and a longer playback progress bar.</p>
+      <a href="editor_assets/02-EditorV2-Frame2.html"><button>Edit Template 2</button></a>
+    </div>
+
+    <div class="card">
+      <img src="static_assets/f3preview.png" alt="Template 3 Thumbnail" />
+      <p>A vertically stacked layout with extra large album art above the song info. Perfect for side panel placement or portrait scenes.</p>
+      <a href="editor_assets/03-EditorV2-Frame3.html"><button>Edit Template 3</button></a>
+    </div>
+
+    <div class="card">
+      <img src="static_assets/f4preview.png" alt="Template 4 Thumbnail" />
+      <p>A fullscreen banner-style layout that includes a pseudo-music visualizer. Ideal for high impact overlays and reactive scenes.</p>
+      <a href="editor_assets/04-EditorV2-Frame4.html"><button>Edit Template 4</button></a>
+    </div>
+  </div>
+
+</body>
+</html>

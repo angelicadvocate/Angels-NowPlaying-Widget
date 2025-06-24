@@ -5,7 +5,7 @@
 
 /* Reset and base styles */
 body {
-  background: #ffffff;
+  background: #ebebeb;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -77,11 +77,11 @@ body {
 /* Big container for album art + text */
 #background {
   position: relative;
-  width: 1600px;
-  min-width: 1600px;
-  max-width: 1600px;
-  height: 130px;
-  background-image: url('Frame4.png');
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  height: 120px;
+  background-image: url('../static_assets/Frame2.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -98,12 +98,13 @@ body {
   position: relative;
   flex-shrink: 0;
   overflow: visible;
+  margin-top: -12px;
   margin-left: 0;
   padding-left: 0;
   z-index: 5;
 }
 
-/* Flex container for image + text */
+/* Flex container for text */
 #content {
   flex: 1;
   overflow: hidden;
