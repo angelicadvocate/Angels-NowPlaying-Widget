@@ -14,3 +14,5 @@ Features
 - All templates update in sync
 
 More features, customization, and a configuration editor are planned in future versions.
+
+test
