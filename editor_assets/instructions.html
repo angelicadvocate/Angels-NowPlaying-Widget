@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angels NowPlaying Widget - Instructions</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+    }
+
+    a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .button {
+      display: block;
+      width: fit-content;
+      margin: 2rem auto;
+      padding: 0.75rem 1.5rem;
+      background-color: #3b82f6;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #2563eb;
+    }
+
+    .note {
+      background-color: #2a2a2a;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Angels NowPlaying Widget</h1>
+  <h2>Instructions (Work in Progress)</h2>
+
+  <p>Welcome! This page will guide you through setting up and using the NowPlaying Widget with OBS and Tuna.</p>
+
+  <h3>Setup Steps</h3>
+  <ol>
+    <li>Download the entire repository from the <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank" rel="noopener">GitHub page</a>.</li>
+    <li>Unzip if needed and place the <code>Angels-NowPlaying-Widget</code> folder in the location where you want to keep the widget files on your computer.</li>
+    <li>Install and configure <a href="https://github.com/univrsal/tuna/releases" target="_blank" rel="noopener">Tuna</a> inside OBS.</li>
+    <li>Configure Tuna to output the files <code>Artist.txt</code>, <code>Track.txt</code>, and <code>Artwork.png</code> into the root directory of the widget folder. Some template files have already been added in the root directory so that you will know where to place them.</li>
+    <li>Open the built-in overlay editor by clicking the Edit buttons for each template in the editor dashboard. The color provided in the frame editor will match the color to use for the progress bar in obs.</li>
+    <li>To add a widget to your OBS scene, create a new Browser Source, select the <em>Local File</em> option, and point it to the corresponding HTML file for your chosen template.</li>
+    <li>Set the resolution in OBS to match the dimensions shown on the editor page for the selected template.</li>
+    <li>Adjust the Browser Source settings as needed, such as enabling <em>Shutdown source when not visible</em> to save resources.</li>
+    <li>Ensure the widget is positioned correctly in your OBS scene, and test it by playing audio through Tuna.</li>
+    <li>You can color match the progress bar by adding the tuna progress bar source in OBS and setting the color to match what the template editor listed on the screen. Layer the progress bar behind the transparent portion of the widget to complete the effect.</li>
+  </ol>
+
+  <h3>Important Notes</h3>
+  <div class="note">
+    <strong>Local File Playback:</strong> This widget has been tested primarily with local audio files played via VLC integration inside OBS with Tuna v1.9.9. To use local music, add your music directory as a VLC Video Source in OBS (not a Media Source). Only VLC Video Sources currently work with Tuna for local playback.
+  </div>
+
+  <div class="note">
+    <strong>Current Status:</strong> Only Template 1 is fully functional at the moment. Other templates are under development and may not render correctly.
+  </div>
+
+  <h3>Future Features</h3>
+  <ul>
+    <li>Support for additional media sources like Spotify, YouTube Music, and Apple Music (as Tuna compatibility allows).</li>
+    <li>Improved configuration editor with images and step-by-step instructions directly accessible inside the editor.</li>
+    <li>Consolidation to a single JSON data source for easier setup and more robust syncing.</li>
+  </ul>
+
+  <p>Thank you for trying out Angels NowPlaying Widget! Your feedback and contributions are welcome on <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank" rel="noopener">GitHub</a>.</p>
+
+ <button class="button" onclick="history.back()">Back to Editor Dashboard</button>
+
+</body>
+</html>
