@@ -1,6 +1,6 @@
 # 🎵 Angels-NowPlaying-Widget (Work in Progress)
 ### ⚠️ This project is still in development and not production-ready.
-**Current version:** 0.3.0
+**Current version:** 0.3.4
 ---
 
 **Angels-NowPlaying-Widget** is a browser-based widget for OBS that displays now playing information from local audio sources using Tuna for OBS. It includes multiple visual templates (overlay frames), all of which update in real time from the same data source.
@@ -32,9 +32,8 @@ You can use each template as a separate browser source in OBS, allowing for flex
 
 1. Install the [Tuna](https://github.com/univrsal/tuna/releases) OBS plugin.
 2. Inside OBS, configure Tuna to output the following files:
-   - `Artist.txt`
-   - `Track.txt`
-   - `Artwork.png`
+   - `Song.json` (Add this from the "Song Cover Path" section in Tuna Settings)
+   - `Artwork.png` (Add this in teh "Song Info Outputs" section in Tuna Settings. Song format is {json_compact})
 3. These files **must be saved to the root of the `Angels-NowPlaying-Widget` directory**.
 
 > ⚠️ Tested and developed using Tuna's VLC integration in Tuna v1.9.9. Other sources and versions may work but are not yet tested.
@@ -64,10 +63,10 @@ To feed music into Tuna:
 
 The widget includes a built-in configuration editor:
 
-- Open the `TemplateEditor.html` file in a browser.
+- Open the `00-TemplateEditor.html` file in a browser by double clicking on the file.
 - Follow the on-screen instructions to edit visual styles for each frame.
 
-> 📌 *The editor includes built-in instructions (coming soon!), and future versions will offer improved visuals and installation steps directly in the editor window.
+> 📌 *The editor includes built-in instructions, and future versions will offer improved visuals and installation steps.
 
 ---
 
@@ -84,9 +83,6 @@ The widget includes a built-in configuration editor:
 - [ ] Add more overlay styles
 - [ ] Support additional media sources (Spotify, YouTube Music, Apple Music, etc.)
 - [ ] Improved documentation inside the built-in editor (with images and step-by-step instructions)
-- [ ] Refactor data fetching to use Tuna JSON output instead of separate .txt/.png files
-    - Will simplify user setup
-    - Enables native progress bar and full metadata access
 
 ---
 
