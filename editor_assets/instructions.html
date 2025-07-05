@@ -5,39 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Angels NowPlaying Widget - Instructions</title>
   <style>
+    :root {
+      --highlight: hsl(221, 82%, 58%);
+      --font-main: "proxima-nova", sans-serif;
+    }
+
     body {
-      background-color: #121212;
-      color: #f0f0f0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       margin: 0;
       padding: 2rem;
-      line-height: 1.6;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    h1, h2 {
-      text-align: center;
-      margin-top: -2px;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-
-    p {
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-    }
-
-    ul {
-      margin-left: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    li {
-      margin-bottom: 0.75rem;
-      font-size: 1.05rem;
+      font-family: var(--font-main), sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
     }
 
     a {
@@ -49,10 +27,41 @@
       text-decoration: underline;
     }
 
+    h1, h2, h3 {
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+    }
+
+    .note {
+      background-color: #2a2a2a;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
     .button {
       display: block;
       width: fit-content;
-      margin: 2rem auto;
+      margin: 2rem 0 0 0;
       padding: 0.75rem 1.5rem;
       background-color: #3b82f6;
       border: none;
@@ -70,20 +79,74 @@
       background-color: #2563eb;
     }
 
-    .note {
-      background-color: #2a2a2a;
-      border-left: 4px solid #3b82f6;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      font-style: italic;
-    }
-
+    /* Header container */
     .header-container {
+      position: relative;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      max-width: 1900px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 1rem;
+      /* NO horizontal padding here */
+    }
+
+    /* Left Share Section */
+    .header-side {
+      display: flex;
+      flex-direction: column;
       justify-content: center;
-      margin-bottom: 0rem;
-      gap: 0rem;
+      align-items: flex-start;
+      font-size: 0.85rem;
+      gap: 0.4rem;
+      max-width: 220px;
+    }
+
+    .header-side.right {
+      align-items: flex-end;
+      text-align: right;
+      max-width: 260px;
+    }
+
+    .header-side p {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .header-side button {
+      background-color: var(--highlight);
+      color: white;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      opacity: 0.85;
+      margin-top: 4px;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .header-side button:hover {
+      opacity: 1;
+    }
+
+    .header-center {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
     }
 
     .floating-mascot {
@@ -94,7 +157,7 @@
     .header-text {
       height: 120px;
       object-fit: contain;
-         margin-left: -10px;
+      margin-left: -10px;
     }
 
     @keyframes float {
@@ -103,53 +166,130 @@
       100% { transform: translateY(0px); }
     }
 
+    /* Page container for two columns */
+    .page-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1900px;
+      margin-left: auto;
+      margin-right: auto;
+      /* NO padding here */
+    }
+
+    .card {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 2rem; /* padding inside card */
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      color: #f0f0f0;
+      overflow-wrap: break-word;
+    }
   </style>
 </head>
 <body>
 
-<div class="header-container">
-  <img src="../static_assets/mascot.png" alt="Mascot" class="floating-mascot" />
-  <img src="../static_assets/header-text.png" alt="Header Text" class="header-text" />
-</div>
+  <div class="header-container">
+    <!-- Left Share Section -->
+    <div class="header-side">
+      <p>📢 Share this widget:</p>
+      <div class="button-row">
+        <button onclick="shareToTwitter()">Twitter</button>
+        <button onclick="shareOnFacebook()">Facebook</button>
+        <button onclick="shareToReddit()">Reddit</button>
+        <button onclick="shareToDiscord()">Discord</button>
+      </div>
+    </div>
 
+    <!-- Center Mascot/Title -->
+    <div class="header-center" style="flex-direction: row; align-items: center; gap: 1rem;">
+      <img src="../static_assets/mascot.png" alt="Mascot" class="floating-mascot" />      
+      <img src="../static_assets/header-text.png" alt="Header Text" class="header-text" />
 
-  <h1>Instructions (Work in Progress)</h1>
+    </div>
 
-  <p>Welcome! This page will guide you through setting up and using the NowPlaying Widget with OBS and Tuna.</p>
-
-  <h3>Setup Steps</h3>
-  <ol>
-    <li>Download the entire repository from the <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank" rel="noopener">GitHub page</a>.</li>
-    <li>Unzip if needed and place the <code>Angels-NowPlaying-Widget</code> folder in the location where you want to keep the widget files on your computer.</li>
-    <li>Install and configure <a href="https://github.com/univrsal/tuna/releases" target="_blank" rel="noopener">Tuna</a> inside OBS.</li>
-    <li>Configure Tuna to output the files <code>Artist.txt</code>, <code>Track.txt</code>, and <code>Artwork.png</code> into the root directory of the widget folder. Some template files have already been added in the root directory so that you will know where to place them.</li>
-    <li>Open the built-in overlay editor by clicking the Edit buttons for each template in the editor dashboard. The color provided in the frame editor will match the color to use for the progress bar in obs.</li>
-    <li>To add a widget to your OBS scene, create a new Browser Source, select the <em>Local File</em> option, and point it to the corresponding HTML file for your chosen template.</li>
-    <li>Set the resolution in OBS to match the dimensions shown on the editor page for the selected template.</li>
-    <li>Adjust the Browser Source settings as needed, such as enabling <em>Shutdown source when not visible</em> to save resources.</li>
-    <li>Ensure the widget is positioned correctly in your OBS scene, and test it by playing audio through Tuna.</li>
-    <li>You can color match the progress bar by adding the tuna progress bar source in OBS and setting the color to match what the template editor listed on the screen. Layer the progress bar behind the transparent portion of the widget to complete the effect.</li>
-  </ol>
-
-  <h3>Important Notes</h3>
-  <div class="note">
-    <strong>Local File Playback:</strong> This widget has been tested primarily with local audio files played via VLC integration inside OBS with Tuna v1.9.9. To use local music, add your music directory as a VLC Video Source in OBS (not a Media Source). Only VLC Video Sources currently work with Tuna for local playback.
+    <!-- Right Donate Section -->
+    <div class="header-side right">
+      <p>💙 Support development:</p>
+      <div class="button-row" style="justify-content: flex-end; width: 100%;">
+        <a href="https://streamelements.com/angelicadvocate/tip" target="_blank"><button>Tip on StreamElements/Paypal</button></a>
+        <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank"><button>Star Us on GitHub</button></a>
+      </div>
+    </div>
   </div>
 
-  <div class="note">
-    <strong>Current Status:</strong> Only Template 1 is fully functional at the moment. Other templates are under development and may not render correctly.
+  <div class="page-container">
+    <div class="card" id="left-column">
+      <h1>Editor Instructions</h1>
+      <p>Work in progress.</p>
+      
+      
+
+      <button class="button" onclick="history.back()">Back to Editor Dashboard</button>
+    </div>
+
+    <div class="card" id="right-column">
+      <h1>Installation Instructions</h1>
+
+      <p>Welcome! This page will guide you through setting up and using the NowPlaying Widget with OBS and Tuna.</p>
+
+      <h3>Setup Steps</h3>
+      <ol>
+        <li>Download the entire repository from the <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank" rel="noopener">GitHub page</a>.</li>
+        <li>Unzip if needed and place the <code>Angels-NowPlaying-Widget</code> folder in the location where you want to keep the widget files on your computer.</li>
+        <li>Install and configure <a href="https://github.com/univrsal/tuna/releases" target="_blank" rel="noopener">Tuna</a> inside OBS.</li>
+        <li>Configure Tuna to output the files <code>Artist.txt</code>, <code>Track.txt</code>, and <code>Artwork.png</code> into the root directory of the widget folder. Some template files have already been added in the root directory so that you will know where to place them.</li>
+        <li>Open the built-in overlay editor by clicking the Edit buttons for each template in the editor dashboard. The color provided in the frame editor will match the color to use for the progress bar in obs.</li>
+        <li>To add a widget to your OBS scene, create a new Browser Source, select the <em>Local File</em> option, and point it to the corresponding HTML file for your chosen template.</li>
+        <li>Set the resolution in OBS to match the dimensions shown on the editor page for the selected template.</li>
+        <li>Adjust the Browser Source settings as needed, such as enabling <em>Shutdown source when not visible</em> to save resources.</li>
+        <li>Ensure the widget is positioned correctly in your OBS scene, and test it by playing audio through Tuna.</li>
+        <li>You can color match the progress bar by adding the tuna progress bar source in OBS and setting the color to match what the template editor listed on the screen. Layer the progress bar behind the transparent portion of the widget to complete the effect.</li>
+      </ol>
+
+      <h3>Important Notes</h3>
+      <div class="note">
+        <strong>Local File Playback:</strong> This widget has been tested primarily with local audio files played via VLC integration inside OBS with Tuna v1.9.9. To use local music, add your music directory as a VLC Video Source in OBS (not a Media Source). Only VLC Video Sources currently work with Tuna for local playback.
+      </div>
+
+      <div class="note">
+        <strong>Current Status:</strong> Only Template 1 is fully functional at the moment. Other templates are under development and may not render correctly.
+      </div>
+
+      <h3>Future Features</h3>
+      <ul>
+        <li>Support for additional media sources like Spotify, YouTube Music, and Apple Music (as Tuna compatibility allows).</li>
+        <li>Improved configuration editor with images and step-by-step instructions directly accessible inside the editor.</li>
+        <li>Consolidation to a single JSON data source for easier setup and more robust syncing.</li>
+      </ul>
+
+      <p>Thank you for trying out Angels NowPlaying Widget! Your feedback and contributions are welcome on <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank" rel="noopener">GitHub</a>.</p>
+
+      <button class="button" onclick="history.back()">Back to Editor Dashboard</button>
+    </div>
   </div>
 
-  <h3>Future Features</h3>
-  <ul>
-    <li>Support for additional media sources like Spotify, YouTube Music, and Apple Music (as Tuna compatibility allows).</li>
-    <li>Improved configuration editor with images and step-by-step instructions directly accessible inside the editor.</li>
-    <li>Consolidation to a single JSON data source for easier setup and more robust syncing.</li>
-  </ul>
+  <script>
+    function shareToTwitter() {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent("Check out Angels NowPlaying Widget!");
+      window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank");
+    }
 
-  <p>Thank you for trying out Angels NowPlaying Widget! Your feedback and contributions are welcome on <a href="https://github.com/angelicadvocate/Angels-NowPlaying-Widget" target="_blank" rel="noopener">GitHub</a>.</p>
+    function shareOnFacebook() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank");
+    }
 
- <button class="button" onclick="history.back()">Back to Editor Dashboard</button>
+    function shareToReddit() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://reddit.com/submit?url=${url}`, "_blank");
+    }
+
+    function shareToDiscord() {
+      alert("Copy the URL from your browser to share on Discord.");
+    }
+  </script>
 
 </body>
 </html>
