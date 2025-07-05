@@ -64,8 +64,8 @@
         const newTrack = data.title || "Unknown Track";
         const newCover = "Artwork.png";
 
-        lastProgress = (data.progress || 0) / 1000;      // in seconds
-        currentDuration = (data.duration || 1) / 1000;   // in seconds
+        lastProgress = (data.progress || 0) / 1000;
+        currentDuration = (data.duration || 1) / 1000;
         lastUpdateTime = Date.now();
 
         if (newTrack !== currentTrack || newArtist !== currentArtist) {
@@ -80,7 +80,7 @@
 
     function animateProgressBar() {
       const now = Date.now();
-      const elapsed = (now - lastUpdateTime) / 1000; // seconds
+      const elapsed = (now - lastUpdateTime) / 1000;
       const progress = Math.min(lastProgress + elapsed, currentDuration);
       const percent = (progress / currentDuration) * 100;
 
