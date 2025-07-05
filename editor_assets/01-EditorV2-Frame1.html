@@ -109,6 +109,7 @@ function applyPreview() {
       return `
 /* /static css placeholder/ */
 
+
 :root {
   --highlight: hsl(${colorValue}, 82%, 58%);
   --font-main: "proxima-nova", sans-serif;
@@ -145,6 +146,7 @@ body {
   justify-content: center;
   padding: 0;
   overflow: visible;
+  z-index: 1;
 }
 
 /* Album art image (main) */
@@ -189,14 +191,19 @@ body {
   text-align: left;
 }
 
-#text-box p,
 #artist,
 #song {
-  width: 200%;
   position: relative;
-  overflow: hidden;
   margin: 0;
 }
+
+.text-box {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
 
 /* Artist name styling */
 #artist {
@@ -244,6 +251,28 @@ p {
   100% {
     transform: translateX(var(--marquee-end, 0));
   }
+}
+
+/* Progress bar container */
+#progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64%;
+  margin-left: 230px;
+  margin-bottom: 12px;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  border-radius: 10px 10px 10px 10px;
+  z-index: 9999;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--highlight);
+  transition: width 0.3s linear;
 }
 
       `.trim();
