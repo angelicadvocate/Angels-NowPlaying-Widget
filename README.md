@@ -65,6 +65,8 @@ The widget includes a built-in configuration editor:
 
 - Open the `00-TemplateEditor.html` file in a browser by double clicking on the file.
 - Follow the on-screen instructions to edit visual styles for each frame.
+- When you are finished with the changes, click the "save" button and replace the downloaded css file in the "css_files" folder for the widget.
+- If OBS was open when you changed the css file you will have to click the refresh button on the source in OBS.
 
 > 📌 *The editor includes built-in instructions, and future versions will offer improved visuals and installation steps.
 
