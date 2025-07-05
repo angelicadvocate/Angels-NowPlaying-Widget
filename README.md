@@ -32,8 +32,8 @@ You can use each template as a separate browser source in OBS, allowing for flex
 
 1. Install the [Tuna](https://github.com/univrsal/tuna/releases) OBS plugin.
 2. Inside OBS, configure Tuna to output the following files:
-   - `Song.json` (Add this from the "Song Cover Path" section in Tuna Settings)
-   - `Artwork.png` (Add this in teh "Song Info Outputs" section in Tuna Settings. Song format is {json_compact})
+   - `Song.json` (Add this in the "Song Info Outputs" section in Tuna Settings. Song format is {json_compact})
+   - `Artwork.png` (Add this from the "Song Cover Path" section in Tuna Settings)
 3. These files **must be saved to the root of the `Angels-NowPlaying-Widget` directory**.
 
 > ⚠️ Tested and developed using Tuna's VLC integration in Tuna v1.9.9. Other sources and versions may work but are not yet tested.
