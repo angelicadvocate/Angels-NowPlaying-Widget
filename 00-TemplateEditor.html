@@ -64,11 +64,41 @@
     .card button:hover {
       background-color: #2563eb;
     }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      gap: 0rem;
+    }
+
+    .floating-mascot {
+      height: 150px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .header-text {
+      height: 120px;
+      object-fit: contain;
+         margin-left: -10px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
   </style>
 </head>
 <body>
 
-  <h1>Angel's NowPlaying Widget - Editor Dashboard</h1>
+
+<div class="header-container">
+  <img src="static_assets/mascot.png" alt="Mascot" class="floating-mascot" />
+  <img src="static_assets/header-text.png" alt="Header Text" class="header-text" />
+</div>
 
   <div class="grid">
     <div class="card">

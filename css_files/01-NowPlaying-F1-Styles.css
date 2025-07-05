@@ -1,65 +1,121 @@
+/* /static css placeholder/ */
+
 :root {
-  --scale: 2;
-  --highlight: hsl(221, 82%, 58%);
+  --highlight: hsl(355, 82%, 58%);
   --font-main: "proxima-nova", sans-serif;
 }
 
-html, body {
-  width: calc(400px * var(--scale));
-  height: calc(200px * var(--scale));
+/* Reset and base styles */
+body {
+  background: #ebebeb;
   margin: 0;
   padding: 0;
-  background: transparent;
   overflow: hidden;
+  font-family: var(--font-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-body {
-  background: url('/static_assets/Frame1.png');
+/* Widget container */
+#background {
+  position: relative;
+  width: 800px;
+  min-width: 800px;
+  max-width: 800px;
+  height: 180px;
+  background-image: url('../static_assets/Frame1.png');
   background-repeat: no-repeat;
-  background-position: calc(50% + 100px) center;
+  background-position: center;
   background-size: contain;
-  font-family: var(--font-main), sans-serif;
-  color: white;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: visible;
 }
 
-
-/* Album artwork */
-#cover,
-#cover-fade {
-  width: calc(90px * var(--scale));
-  height: calc(90px * var(--scale));
+/* Album art image (main) */
+#image {
+  width: 140px;
+  height: 140px;
   object-fit: cover;
-  border-radius: calc(4px * var(--scale));
-  position: absolute;
-  left: calc(56px * var(--scale));
-  top: calc(55px * var(--scale));
+  margin-left: 60px;
+  border-radius: 8px;
+  display: block;
 }
 
-#cover-fade {
-  z-index: 2;
+/* Fading overlay image */
+#image-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  overflow: visible;
+  margin-left: 0px;
+  padding-left: 0;
+  z-index: 5;
 }
 
-/* Text content wrapper */
-#text-content {
-  position: absolute;
-  top: calc(64px * var(--scale));
-  left: calc(150px * var(--scale));
-  width: calc(296px * var(--scale));
+/* Flex container for image + text */
+#content {
+  flex: 1;
+  overflow: hidden;
+  padding: 0 40px 0 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Text container */
+#text-box {
   display: flex;
   flex-direction: column;
-  gap: calc(6px * var(--scale));
+  justify-content: center;
+  min-width: 0;
+  flex-grow: 1;
   overflow: hidden;
+  text-align: left;
 }
 
-/* Each line container */
-.text-line {
-  width: calc(300px * var(--scale));
+#artist,
+#song {
+  position: relative;
+  margin: 0;
+}
+
+.text-box {
+  width: 100%;
   overflow: hidden;
+  white-space: nowrap;
   position: relative;
 }
 
+/* Artist name styling */
+#artist {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 32px;
+  margin-bottom: 16px;
+  color: var(--highlight);
+}
+
+/* Song title styling */
+#song {
+  font-weight: bold;
+  font-size: 48px;
+  color: white;
+  margin: 0;
+}
+
+p {
+  white-space: nowrap;
+}
+
 /* Scrolling span */
-.text-line span {
+#text-box span {
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
@@ -84,17 +140,3 @@ body {
     transform: translateX(var(--marquee-end, 0));
   }
 }
-
-/* Font sizes */
-#track-title {
-  font-size: calc(26px * var(--scale));
-  font-weight: bold;
-  opacity: 0;
-}
-
-#artist-name {
-  font-size: calc(18px * var(--scale));
-  font-weight: bold;
-  opacity: 0;
-}
-

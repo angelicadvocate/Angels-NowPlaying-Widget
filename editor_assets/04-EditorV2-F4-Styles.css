@@ -183,7 +183,22 @@ body {
   font-family: var(--font-main);
 }
 
-#save:hover {
+#back_button {
+  background-color: var(--highlight);
+  color: white;
+  padding: 10px 60px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: -20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+  font-family: var(--font-main);
+}
+
+#save:hover, #back_button:hover {
   opacity: 1;
 }
 

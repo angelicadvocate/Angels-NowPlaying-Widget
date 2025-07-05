@@ -20,6 +20,7 @@
 
     h1, h2 {
       text-align: center;
+      margin-top: -2px;
       margin-bottom: 1rem;
       font-weight: 700;
     }
@@ -76,12 +77,43 @@
       margin-bottom: 1.5rem;
       font-style: italic;
     }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0rem;
+      gap: 0rem;
+    }
+
+    .floating-mascot {
+      height: 150px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .header-text {
+      height: 120px;
+      object-fit: contain;
+         margin-left: -10px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
   </style>
 </head>
 <body>
 
-  <h1>Angels NowPlaying Widget</h1>
-  <h2>Instructions (Work in Progress)</h2>
+<div class="header-container">
+  <img src="../static_assets/mascot.png" alt="Mascot" class="floating-mascot" />
+  <img src="../static_assets/header-text.png" alt="Header Text" class="header-text" />
+</div>
+
+
+  <h1>Instructions (Work in Progress)</h1>
 
   <p>Welcome! This page will guide you through setting up and using the NowPlaying Widget with OBS and Tuna.</p>
 
