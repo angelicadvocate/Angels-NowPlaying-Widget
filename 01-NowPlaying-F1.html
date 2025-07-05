@@ -7,7 +7,9 @@
   <link rel="stylesheet" href="css_files/01-NowPlaying-F1-Styles.css" />
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
   <script>
-    let currentArtist, currentTrack;
+    let currentArtist = "";
+    let currentTrack = "";
+    let currentCoverUrl = "";
     let isVisible = false;
 
     function fadeOutText() {
@@ -16,15 +18,15 @@
     }
 
     function updateTextContent() {
-      $("#artist").html(currentArtist);
-      $("#song").html(currentTrack);
+      $("#artist").text(currentArtist);
+      $("#song").text(currentTrack);
     }
 
     function applyMarquee($el) {
       const containerWidth = $el.parent()[0].offsetWidth;
       const textWidth = $el[0].scrollWidth;
       const start = containerWidth + "px";
-      const end = (-textWidth) + "px";
+      const end = -textWidth + "px";
       const distance = containerWidth + textWidth;
       const durationSeconds = distance / 100;
 
@@ -68,9 +70,12 @@
         currentDuration = (data.duration || 1) / 1000;
         lastUpdateTime = Date.now();
 
-        if (newTrack !== currentTrack || newArtist !== currentArtist) {
-          currentArtist = newArtist.replace(/&/g, "&amp;");
-          currentTrack = newTrack.replace(/&/g, "&amp;");
+        const artistChanged = newArtist !== currentArtist;
+        const trackChanged = newTrack !== currentTrack;
+
+        if (artistChanged || trackChanged) {
+          currentArtist = newArtist;
+          currentTrack = newTrack;
           renderNowPlaying(newCover);
         }
       });
@@ -90,8 +95,6 @@
     }
 
     function renderNowPlaying(coverUrl) {
-      const $track = $("#song");
-
       if (currentTrack.length > 0 && !isVisible) {
         $("#background").animate({ marginLeft: "0" }, 500);
         isVisible = true;
@@ -106,17 +109,19 @@
       setTimeout(updateTextContent, 300);
       setTimeout(fadeInText, 400);
 
-      const artworkPath = `${coverUrl}?t=${Date.now()}`;
-      $("#image").fadeOut(500, function () {
-        $(this).attr("src", artworkPath).fadeIn(500);
-      });
+      const newArtworkPath = `${coverUrl}?t=${Date.now()}`;
+      if (newArtworkPath !== currentCoverUrl) {
+        currentCoverUrl = newArtworkPath;
+        $("#image").fadeOut(500, function () {
+          $(this).attr("src", currentCoverUrl).fadeIn(500);
+        });
+      }
     }
 
     $(document).ready(function () {
       fetchNowPlaying();
       animateProgressBar();
     });
-
   </script>
 </head>
 <body>
