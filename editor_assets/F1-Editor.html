@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EditorV2-Frame1</title>
-  <link rel="stylesheet" href="01-EditorV2-F1-Styles.css" />
+  <link rel="stylesheet" href="F1-Editor.css" />
 </head>
 <body>
     <main id="site">
@@ -16,7 +16,7 @@
       <input type="range" min="8" max="32" value="24" class="slider" id="track_title">  
 
       <label for="spacing" class="info">Spacing Horizontal</label>
-      <input type="range" min="0" max="20" value="8" class="slider" id="spacing">  
+      <input type="range" min="-8" max="20" value="8" class="slider" id="spacing">  
 
       <label class="info" for="imageSize">Album Art Size</label>
       <input type="range" min="40" max="150" value="70" class="slider" id="imageSize">
@@ -27,7 +27,7 @@
       <label for="imagePadding" class="info">Image Left Padding</label>
       <input type="range" min="-50" max="50" value="30" class="slider" id="imagePadding">
 
-      <label for="color" class="info">Artist Name Color</label>
+      <label for="color" class="info">Accent Color</label>
       <input type="range" min="0" max="355" value="355" class="slider" id="color">
         <div id="colorDisplay" class="info" style="margin-top: 5px;">
           Color Code: <code id="colorCode">#ff66aa</code>
@@ -45,6 +45,9 @@
         <p id="artist">Sample Artist</p>
         <p id="song">Sample Song Title</p>
       </div>
+    </div>
+    <div id="progress-container-preview">
+      <div id="progress-bar-preview"></div>
     </div>
   </div>
 </section>
@@ -102,6 +105,24 @@ function applyPreview() {
   content.style.padding = `0 20px 0 ${contentPaddingValue}px`;
   const imageWrapper = document.getElementById('image-wrapper');
   imageWrapper.style.marginLeft = imagePaddingValue + "px";
+  
+  // Update progress bar positioning and color dynamically
+  const progressContainer = document.getElementById('progress-container-preview');
+  const progressBar = document.getElementById('progress-bar-preview');
+  if (progressContainer && progressBar) {
+    // Calculate dynamic positioning based on image position and size
+    const imageLeftPos = parseInt(imagePaddingValue) + 5; // Base padding + image padding
+    const imageRightEdge = imageLeftPos + parseInt(imageSizeValue);
+    const progressStartPos = imageRightEdge + 10; // Small gap after image
+    const containerWidth = 400; // Preview container width
+    const progressWidth = containerWidth - progressStartPos - 30; // Leave some right margin
+    
+    progressContainer.style.left = progressStartPos + "px";
+    progressContainer.style.width = progressWidth + "px";
+    
+    // Update progress bar color to match accent color (same as artist)
+    progressBar.style.backgroundColor = `hsl(${colorValue}, 100%, 68%)`;
+  }
 }
 
 
@@ -256,15 +277,14 @@ p {
   }
 }
 
-/* Progress bar container */
+/* Progress bar container - dynamically positioned */
 #progress-container {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 64%;
-  margin-left: 230px;
-  margin-bottom: 12px;
-  height: 15px;
+  left: ${(parseInt(imagePaddingValue) * scale + parseInt(imageSizeValue) * scale + 20)}px;
+  width: ${(400 * scale) - (parseInt(imagePaddingValue) * scale + parseInt(imageSizeValue) * scale + 60)}px;
+  margin-bottom: ${12 * scale}px;
+  height: ${15 * scale}px;
   background-color: rgba(255, 255, 255, 0.1);
   overflow: hidden;
   border-radius: 10px 10px 10px 10px;

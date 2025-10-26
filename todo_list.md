@@ -2,14 +2,7 @@
 
 This document outlines suggested improvements, potential issues, and future development ideas for the Angels-NowPlaying-Widget project.
 
-## � Current Development Status (October 2025)
-
-### Recently Completed Work
-- ✅ **Normalize F2 runtime HTML** to use `.text-clip` — complete
-- ✅ **Fix F3 scroller slowdown** — rewrote scroller to use transform + requestAnimationFrame and updated reveal logic
-- ✅ **Revert temporary debug values** — removed `data-debug-scroller` usage and debug console output from `js/common.js`. Backup `js/common.js.bak` retained
-- ✅ **Polish `js/common.js`** and clean debug logs — completed
-- ✅ **Smoke-test F1–F4** — user confirmed F1–F4 tested and working in OBS
+## 🟢 Current Development Status (October 2025)
 
 ### 🎯 **IMMEDIATE TOP PRIORITY**
 **Test editor `generateCSS()` end-to-end for frames F1–F4** (manual integration test):
@@ -276,6 +269,17 @@ Thumbs.db
    - Show preview next to "before" state
    - Help users see their changes more clearly
 
+5. **Text alignment options for F3:**
+   - Add radio buttons for align left, center, and right
+   - F3's vertical layout would benefit from flexible text positioning
+   - Consider implementing for other frames if successful
+
+6. **Font selection dropdown:**
+   - Add dropdown with Google Fonts or system font options
+   - Include popular choices like Roboto, Open Sans, Poppins, etc.
+   - Apply to all frames for consistency
+   - Consider web font loading implications for OBS
+
 ### Documentation Improvements
 
 1. **Add screenshots to README:**
@@ -293,7 +297,12 @@ Thumbs.db
    - Customization tutorial
    - Adding multiple frames to OBS
 
-4. **Create FAQ section:**
+4. **Add Tuna configuration documentation:**
+   - Include pictures/screenshots showing how to configure Tuna plugin
+   - Step-by-step visual guide for Tuna setup
+   - Add GIF showing editor workflow for users to see the complete customization process
+
+5. **Create FAQ section:**
    - Why VLC and not Media Source?
    - Can I use with Spotify? (future feature)
    - How do I update the widget?
@@ -314,6 +323,11 @@ Thumbs.db
    - Ctrl+S to save
    - Ctrl+R to reset
    - ESC to cancel/go back
+
+4. **Improve button positioning and responsiveness:**
+   - Revise back buttons and save buttons to anchor them to the page
+   - Make buttons work properly on different screen sizes
+   - Current implementation uses fixed margin-top which doesn't scale
 
 ## 💡 New Frame Ideas
 
@@ -390,6 +404,54 @@ Thumbs.db
     - Subtle 3D effect
     - Pastel color options
     - Modern, trendy design
+
+## 📋 **IMPLEMENTATION NOTES FOR NEW TEMPLATES (F8-F11)**
+
+### **F8: Retro Vinyl/Cassette Theme - Implementation Details**
+- **Toggle Method:** CSS opacity-based switching between vinyl and cassette modes
+  ```css
+  :root {
+    --vinyl-opacity: 1;
+    --cassette-opacity: 0;
+  }
+  ```
+- **Vinyl Mode:** 
+  - Spinning record animation using CSS `@keyframes rotate`
+  - Static layout, minimal customization options
+- **Cassette Mode:**
+  - Animated tape winding effect (CSS animation on tape reels)
+  - **No progress bar** for this variation
+  - Static layout, minimal customization options
+- **Editor Controls:** Simple radio button/toggle to switch between vinyl and cassette
+
+### **F11: Retro OS Theme - Implementation Details**
+- **Toggle Method:** CSS opacity-based background image switching
+  ```css
+  :root {
+    --win98-opacity: 1;
+    --winxp-opacity: 0;
+    --win2k-opacity: 0;
+  }
+  ```
+- **Background Variations:**
+  - Windows 98-style frame image
+  - Windows XP-style frame image  
+  - Windows 2000-style frame image (optional)
+  - Other classic OS variations as needed
+- **Editor Controls:**
+  - Background image selector (radio buttons or dropdown)
+  - Font selection dropdown (system fonts like MS Sans Serif, Tahoma, etc.)
+- **Implementation:** Hardcoded values for positioning, sizing, colors
+- **Customization:** Minimal - just background theme and font choice
+
+### **Development Strategy for F8 & F11**
+- Keep layout modifications minimal
+- Focus on visual theming rather than layout flexibility
+- Use CSS custom properties for easy switching
+- Hardcode most positioning/styling values
+- Limit editor controls to essential theme toggles
+
+---
 
 ### Theme Packs Concept
 
@@ -568,14 +630,83 @@ Based on recent development work, the recommended action plan is:
 #########################################################################################
 BELOW THIS LINE FOR COMPLETED TASKS ONLY
 #########################################################################################
-Please be sure to add date, completed tag, github:[username], and version number change if needed
-(see example below for formatting example)
+Please be sure to add date, completed tag, `github:[username]`, and version number change if needed
+(see below for formatting example)
 
 ---------------------------------------------------------------------------------
-- [X] **{MAIN TASK NAME/TITLE}** ✨ *COMPLETED* github:AngelicAdvocate v0.3.4
-  - details for task/feature/improvement
-  - more details for task
-  - etc, etc, etc.
+
+- [X] **Normalize F2 runtime HTML** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.3.4**
+  - Updated F2 to use `.text-clip` class for consistency
+  - Ensures compatibility with shared JS scroller logic
 ---------------------------------------------------------------------------------
 
-#########################################################################################
+- [X] **Fix F3 scroller slowdown** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.3.4**
+  - Rewrote scroller to use transform + requestAnimationFrame
+  - Updated reveal logic to improve performance
+  - Eliminated sluggish animation behavior
+---------------------------------------------------------------------------------
+
+- [X] **Revert temporary debug values** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.3.4**
+  - Removed `data-debug-scroller` usage from production code
+  - Cleaned debug console output from `js/common.js`
+  - Backup `js/common.js.bak` retained for reference
+---------------------------------------------------------------------------------
+
+- [X] **Polish js/common.js and clean debug logs** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.3.4**
+  - Removed development debug statements
+  - Cleaned up code comments and formatting
+  - Finalized production-ready common JavaScript library
+---------------------------------------------------------------------------------
+
+- [X] **Smoke-test F1–F4 frames** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.3.4**
+  - User confirmed F1–F4 tested and working in OBS
+  - All frames display properly with current song data
+  - Text scrolling and progress bars functional
+---------------------------------------------------------------------------------
+
+- [X] **Add version tracking and metadata** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.3.4**
+  - Created VERSION file with current version 0.3.4
+  - Added project.json with comprehensive project metadata
+  - Added version comments to main files for tracking
+---------------------------------------------------------------------------------
+
+- [X] **File naming standardization and workspace cleanup** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.4.0**
+  - Renamed all editor files from `01-EditorV2-Frame1.html` format to clean `F1-Editor.html` format
+  - Renamed all CSS files from `01-EditorV2-F1-Styles.css` to `F1-Editor.css` format  
+  - Updated all references in dashboard (`00-TemplateEditor.html`) to use new file names
+  - Updated CSS links in all HTML editor files to match new naming convention
+  - Separated inline CSS from `instructions.html` into external `instructions.css` file
+  - Significantly improved workspace organization and maintainability
+
+---------------------------------------------------------------------------------
+
+- [X] **Added more template cards to dashboard** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.4.1**
+   - Added new card for templates for frames 8-11
+   - Added basic descriptions for future designs
+   - Fixed scrolling bug on main TemplateEditor dashboard page
+---------------------------------------------------------------------------------
+
+- [X] **F8 Vinyl Editor Implementation & Refactor** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.4.2** *(2025-10-26)*
+   - Created F8 vinyl editor structure with vinyl-only preview, removed cassette toggle and assets
+   - Added slider controls for font size, accent color, vertical offset, and drop shadow
+   - Refactored CSS generation to use a single scale variable for all elements (matches F1 approach)
+   - Ensured all generated CSS and runtime CSS use the scale variable for maintainability
+   - Improved centering, overflow handling, and visual accuracy in preview and output
+   - Finalized font-family and margin consistency between editor and OBS display page
+   - Added rotation effect to background image for vinyl preview
+   - Reset album art opacity to full, improved drop shadow prominence
+---------------------------------------------------------------------------------
+
+- [X] **OBS Display Page & Data Fetch Fixes (F8)** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.4.2** *(2025-10-26)*
+   - Created 08-NowPlaying-F8.html for OBS display, matching F8 editor output
+   - Fixed JSON fetch logic to correctly display artist name and track name
+   - Synced font-family, margin, and layout between editor and OBS page
+   - Ensured drop shadow and accent color match editor defaults
+   - Moved inline CSS to external file for maintainability
+---------------------------------------------------------------------------------
+
+- [X] **Dashboard & Template Management Updates** ✨ *COMPLETED* `github:AngelicAdvocate` **v0.4.2** *(2025-10-26)*
+   - Added F8 preview image and updated description in 00-TemplateEditor.html
+   - Removed cassette tape option, updated glassmorphism/cassette template order and descriptions
+   - Ensured template cards and preview images reflect latest changes
+   - Updated OBS dimensions and template metadata where needed

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EditorV2-Frame2</title>
-  <link rel="stylesheet" href="02-EditorV2-F2-Styles.css" />
+  <link rel="stylesheet" href="F2-Editor.css" />
 </head>
 <body>
   <main id="site">
@@ -16,7 +16,7 @@
       <input type="range" min="8" max="30" value="28" class="slider" id="track_title">  
 
       <label for="spacing" class="info">Spacing Horizontal</label>
-      <input type="range" min="0" max="20" value="8" class="slider" id="spacing">  
+      <input type="range" min="-8" max="20" value="8" class="slider" id="spacing">  
 
       <label class="info" for="imageSize">Album Art Size</label>
       <input type="range" min="40" max="150" value="90" class="slider" id="imageSize">
@@ -27,7 +27,7 @@
       <label for="imagePadding" class="info">Image Left Padding</label>
       <input type="range" min="-100" max="50" value="8" class="slider" id="imagePadding">
 
-      <label for="color" class="info">Artist Name Color</label>
+      <label for="color" class="info">Accent Color</label>
       <input type="range" min="0" max="355" value="355" class="slider" id="color">
         <div id="colorDisplay" class="info" style="margin-top: 5px;">
           Color Code: <code id="colorCode">#ff66aa</code>
@@ -45,6 +45,9 @@
         <p id="artist">Sample Artist</p>
         <p id="song">Sample Song Title</p>
       </div>
+    </div>
+    <div id="progress-container-preview">
+      <div id="progress-bar-preview"></div>
     </div>
   </div>
 </section>
@@ -102,6 +105,13 @@ function applyPreview() {
   content.style.padding = `0 20px 0 ${contentPaddingValue}px`;
   const imageWrapper = document.getElementById('image-wrapper');
   imageWrapper.style.marginLeft = imagePaddingValue + "px";
+  
+  // Update progress bar color (F2 uses full-width, no dynamic positioning needed)
+  const progressBar = document.getElementById('progress-bar-preview');
+  if (progressBar) {
+    // Update progress bar color to match accent color (same as artist)
+    progressBar.style.backgroundColor = `hsl(${colorValue}, 100%, 68%)`;
+  }
 }
 
 
@@ -252,15 +262,15 @@ p {
   }
 }
 
-/* Progress bar container */
+/* Progress bar container - full width for F2 */
 #progress-container {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 96%;
-  margin-left: 16px;
-  margin-bottom: 13px;
-  height: 14px;
+  margin-left: ${16 * scale}px;
+  margin-bottom: ${13 * scale}px;
+  height: ${14 * scale}px;
   background-color: rgba(255, 255, 255, 0.1);
   overflow: hidden;
   border-radius: 6px;

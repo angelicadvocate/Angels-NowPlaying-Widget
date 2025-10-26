@@ -4,39 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EditorV2-Frame3</title>
-  <link rel="stylesheet" href="03-EditorV2-F3-Styles.css" />
+  <link rel="stylesheet" href="F3-Editor.css" />
 </head>
 <body>
   <main id="site">
     <section id="controls">
-      <label for="artist_name" class="info">Artist Name Size</label>
-      <input type="range" min="8" max="30" value="19" class="slider" id="artist_name"> 
+      <!-- Two-column layout for all sliders -->
+      <div class="controls-grid">
+        <!-- Left Column -->
+        <div class="controls-column">
+          <label for="artist_name" class="info">Artist Name Size</label>
+          <input type="range" min="8" max="30" value="19" class="slider" id="artist_name"> 
 
-      <label for="track_title" class="info">Track Title Size</label>
-      <input type="range" min="8" max="30" value="26" class="slider" id="track_title">  
+          <label for="track_title" class="info">Track Title Size</label>
+          <input type="range" min="8" max="30" value="26" class="slider" id="track_title">  
 
-      <label for="spacing" class="info">Spacing Horizontal</label>
-      <input type="range" min="0" max="20" value="8" class="slider" id="spacing">  
+          <label for="spacing" class="info">Spacing Horizontal</label>
+          <input type="range" min="-8" max="20" value="8" class="slider" id="spacing">  
 
-      <label class="info" for="imageSize">Album Art Size</label>
-      <input type="range" min="40" max="400" value="250" class="slider" id="imageSize">
-
-  <label for="imageMarginTop" class="info">Image Top Margin</label>
-  <input type="range" min="-100" max="100" value="12" class="slider" id="imageMarginTop">
-
-  <label for="textMarginTop" class="info">Text Top Margin</label>
-  <input type="range" min="-100" max="100" value="-15" class="slider" id="textMarginTop">
-
-  <!-- contentPadding slider removed: editor now centers text for F3 -->
-
-      <label for="imagePadding" class="info">Image Left Padding</label>
-      <input type="range" min="-50" max="50" value="0" class="slider" id="imagePadding">
-
-      <label for="color" class="info">Artist Name Color</label>
-      <input type="range" min="0" max="355" value="355" class="slider" id="color">
-        <div id="colorDisplay" class="info" style="margin-top: 5px;">
-          Color Code: <code id="colorCode">#ff66aa</code>
+          <label for="color" class="info">Accent Color</label>
+          <input type="range" min="0" max="355" value="355" class="slider" id="color">
+            <div id="colorDisplay" class="info" style="margin-top: 5px;">
+              Color Code: <code id="colorCode">#ff66aa</code>
+            </div>
         </div>
+
+        <!-- Right Column -->
+        <div class="controls-column">
+          <label class="info" for="imageSize">Album Art Size</label>
+          <input type="range" min="40" max="400" value="250" class="slider" id="imageSize">
+
+          <label for="imageMarginTop" class="info">Image Top Margin</label>
+          <input type="range" min="-100" max="100" value="12" class="slider" id="imageMarginTop">
+
+          <label for="textMarginTop" class="info">Text Top Margin</label>
+          <input type="range" min="-100" max="100" value="-15" class="slider" id="textMarginTop">
+
+          <label for="imagePadding" class="info">Image Left Padding</label>
+          <input type="range" min="-50" max="50" value="0" class="slider" id="imagePadding">
+        </div>
+      </div>
 
     </section>
 
@@ -54,13 +61,16 @@
           <p id="song">Sample Song Title</p>
         </div>
       </div>
+      <div id="progress-container-preview">
+        <div id="progress-bar-preview"></div>
+      </div>
     </div>
   </div>
-
-  <div style="text-align: center; margin-top: 20px;">
-    <button id="save">Save</button>
-  </div>
 </section>
+
+  </main>
+      <button id="save">Save</button>
+    </div>
 
   <script>
     const artistSize = document.getElementById("artist_name");
@@ -113,6 +123,13 @@ function applyPreview() {
   imageWrapper.style.marginTop = imageMarginTopValue + "px";
   const textBox = document.getElementById('text-box');
   textBox.style.marginTop = textMarginTopValue + "px";
+  
+  // Update progress bar color (F3 uses static width based on default image size)
+  const progressBar = document.getElementById('progress-bar-preview');
+  if (progressBar) {
+    // Update progress bar color to match accent color (same as artist)
+    progressBar.style.backgroundColor = `hsl(${colorValue}, 100%, 68%)`;
+  }
 }
 
 
@@ -192,6 +209,26 @@ body {
 #song { font-weight: bold; font-size: ${songSizeValue * scale}px; color: white; margin: 0; }
 
 p { white-space: nowrap; }
+
+#progress-container {
+  width: ${250 * scale}px;
+  height: ${8 * scale}px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: ${30 * scale}px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: ${4 * scale}px;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  background-color: var(--highlight);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: ${4 * scale}px;
+}
 
       `.trim();
     }

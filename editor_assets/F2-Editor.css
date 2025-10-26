@@ -1,8 +1,6 @@
 :root {
   --highlight: hsl(221, 82%, 58%);
   --font-main: "proxima-nova", sans-serif;
-  /* Editor preview tuning */
-  --editor-preview-padding-top: 140; /* px - increase to move preview down */
 }
 
 /* Reset and base styles */
@@ -66,21 +64,6 @@ body {
   border-radius: 50%;
 }
 
-.slider-group {
-  margin-bottom: 50px;
-}
-
-.slider-group .info {
-  display: block;
-  margin-bottom: 14px;
-  font-size: 20px;
-  text-align: center;
-}
-
-.slider-group .slider {
-  width: 100%;
-}
-
 /* Sample preview section */
 #sample {
   display: flex;
@@ -88,26 +71,23 @@ body {
   align-items: center;
   width: 100%;
   text-align: left;
-  /* padding-top allows visual vertical centering of the preview area in the editor */
-  padding-top: calc(var(--editor-preview-padding-top) * 1px);
 }
 
 
 /* Big container for album art + text */
 #background {
   position: relative;
-  width: 300px;
-  min-width: 300px;
-  max-width: 300px;
-  height: 380px;
-  background-image: url('../static_assets/Frame3.png');
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  height: 120px;
+  background-image: url('../static_assets/Frame2.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -118,21 +98,21 @@ body {
   position: relative;
   flex-shrink: 0;
   overflow: visible;
+  margin-top: -12px;
   margin-left: 0;
   padding-left: 0;
   z-index: 5;
 }
 
-/* Flex container for image + text (centered text for F3 preview) */
+/* Flex container for text */
 #content {
   flex: 1;
   overflow: hidden;
-  padding: 0 20px;
+  padding: 0 20px 0 30px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
 }
 
 /* Album art image */
@@ -142,10 +122,9 @@ body {
   object-fit: cover;
   border-radius: 4px;
   display: block;
-  margin-top: var(--image-margin-top, 0px); /* Default to 0, will be set dynamically */
 }
 
-/* Text container under the album art (centered) */
+/* Text container next to album art */
 #text-box {
   display: flex;
   flex-direction: column;
@@ -153,7 +132,7 @@ body {
   min-width: 0;
   flex-grow: 1;
   overflow: hidden;
-  text-align: center;
+  text-align: left;
 }
 
 #text-box p {
@@ -162,7 +141,8 @@ body {
   text-overflow: ellipsis;
 }
 
-#artist, #song {
+/* normalize naming: use .text-clip class in editor preview to match runtime frames */
+.text-clip, .text-box {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -190,6 +170,27 @@ body {
   color: white;
 }
 
+/* Progress bar preview (full-width for F2) */
+#progress-container-preview {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 96%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  border-radius: 5px;
+  z-index: 9999;
+}
+
+#progress-bar-preview {
+  height: 100%;
+  width: 50%; /* Static 50% progress for preview */
+  background-color: hsl(221, 100%, 68%); /* Default color, updated dynamically by JS */
+  transition: width 0.3s linear;
+}
+
+/* Save button */
 /* Save button */
 #save {
   background-color: var(--highlight);
@@ -227,29 +228,4 @@ body {
 /* Utility */
 p {
   white-space: nowrap;
-}
-
-#site {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-}
-
-#layout {
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
-}
-
-#bottom_back_button {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  z-index: 1000; /* optional, if overlapping needed */
 }

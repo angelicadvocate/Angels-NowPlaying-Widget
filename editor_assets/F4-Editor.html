@@ -4,34 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EditorV2-Frame4</title>
-  <link rel="stylesheet" href="04-EditorV2-F4-Styles.css" />
+  <link rel="stylesheet" href="F4-Editor.css" />
 </head>
 <body>
   <main id="site">
     <section id="controls">
-      <label for="artist_name" class="info">Artist Name Size</label>
-      <input type="range" min="8" max="45" value="20" class="slider" id="artist_name"> 
+      <!-- Two-column layout for all sliders -->
+      <div class="controls-grid">
+        <!-- Left Column -->
+        <div class="controls-column">
+          <label for="artist_name" class="info">Artist Name Size</label>
+          <input type="range" min="8" max="45" value="20" class="slider" id="artist_name"> 
 
-      <label for="track_title" class="info">Track Title Size</label>
-      <input type="range" min="8" max="53" value="32" class="slider" id="track_title">  
+          <label for="track_title" class="info">Track Title Size</label>
+          <input type="range" min="8" max="53" value="32" class="slider" id="track_title">  
 
-      <label for="spacing" class="info">Spacing Horizontal</label>
-      <input type="range" min="-12" max="20" value="8" class="slider" id="spacing">  
+          <label for="spacing" class="info">Spacing Horizontal</label>
+          <input type="range" min="-12" max="20" value="8" class="slider" id="spacing">  
 
-      <label class="info" for="imageSize">Album Art Size</label>
-      <input type="range" min="40" max="300" value="110" class="slider" id="imageSize">
-
-      <label for="contentPadding" class="info">Text Left Padding</label>
-      <input type="range" min="0" max="200" value="20" class="slider" id="contentPadding">
-
-      <label for="imagePadding" class="info">Image Left Padding</label>
-      <input type="range" min="-150" max="50" value="25" class="slider" id="imagePadding">
-
-      <label for="color" class="info">Artist Name Color</label>
-      <input type="range" min="0" max="355" value="355" class="slider" id="color">
-        <div id="colorDisplay" class="info" style="margin-top: 5px;">
-          Color Code: <code id="colorCode">#ff66aa</code>
+          <label for="color" class="info">Accent Color</label>
+          <input type="range" min="0" max="355" value="355" class="slider" id="color">
+            <div id="colorDisplay" class="info" style="margin-top: 5px;">
+              Color Code: <code id="colorCode">#ff66aa</code>
+            </div>
         </div>
+
+        <!-- Right Column -->
+        <div class="controls-column">
+          <label for="visualizerOpacity" class="info">Visualizer Opacity</label>
+          <input type="range" min="0" max="100" value="70" class="slider" id="visualizerOpacity">
+
+          <label class="info" for="imageSize">Album Art Size</label>
+          <input type="range" min="40" max="300" value="110" class="slider" id="imageSize">
+
+          <label for="contentPadding" class="info">Text Left Padding</label>
+          <input type="range" min="0" max="200" value="20" class="slider" id="contentPadding">
+
+          <label for="imagePadding" class="info">Image Left Padding</label>
+          <input type="range" min="-150" max="50" value="25" class="slider" id="imagePadding">
+        </div>
+      </div>
 
     </section>
 
@@ -46,6 +58,12 @@
         <p id="song">Sample Song Title</p>
       </div>
     </div>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <video id="visualizer" autoplay muted loop>
+      <source src="../static_assets/visualizer.webm" type="video/webm">
+    </video>
   </div>
 </section>
 
@@ -66,6 +84,7 @@
     const imageSizeSlider = document.getElementById('imageSize');
     const contentPaddingSlider = document.getElementById('contentPadding');
     const imagePaddingSlider = document.getElementById('imagePadding');
+    const visualizerOpacitySlider = document.getElementById('visualizerOpacity');
 
     let imagePaddingValue = imagePaddingSlider.value;    
     let contentPaddingValue = contentPaddingSlider.value;
@@ -74,6 +93,7 @@
     let songSizeValue = songSize.value;
     let spacingValue = spacing.value;
     let colorValue = color.value;
+    let visualizerOpacityValue = visualizerOpacitySlider.value;
 
 function applyPreview() {
   artistEl.style.fontSize = artistSizeValue + "px";
@@ -100,23 +120,64 @@ function applyPreview() {
   content.style.padding = `0 20px 0 ${contentPaddingValue}px`;
   const imageWrapper = document.getElementById('image-wrapper');
   imageWrapper.style.marginLeft = imagePaddingValue + "px";
+  
+  // Update progress bar color and position (similar to F1)
+  const progressBar = document.getElementById('progress-bar');
+  const progressContainer = document.getElementById('progress-container');
+  if (progressBar) {
+    progressBar.style.backgroundColor = `hsl(${colorValue}, 100%, 68%)`;
+  }
+  
+  // Dynamic progress bar positioning based on image position
+  if (progressContainer) {
+    // Calculate progress bar position based on image and content padding
+    const imageWidth = parseInt(imageSizeValue);
+    const imageLeftMargin = parseInt(imagePaddingValue);
+    const contentLeftPadding = parseInt(contentPaddingValue);
+    
+    // Progress bar starts after image + some spacing
+    const progressLeft = imageLeftMargin + imageWidth + 20; // 20px spacing after image
+    // Progress bar width is smaller now due to larger visualizer
+    const totalWidth = 1200; // Total frame width
+    const visualizerSpace = 700; // Increased space reserved for larger visualizer
+    const progressWidth = totalWidth - progressLeft - visualizerSpace - 40; // 40px margin
+    
+    progressContainer.style.left = progressLeft + 'px';
+    progressContainer.style.width = Math.max(150, progressWidth) + 'px'; // Reduced minimum width
+  }
+  
+  // Update visualizer opacity
+  const visualizer = document.getElementById('visualizer');
+  if (visualizer) {
+    visualizer.style.opacity = visualizerOpacityValue / 100;
+  }
 }
 
 
     function generateCSS() {
+      const scale = 1.2; // Preview to OBS scaling factor (NOTE: Change to 1 if issues found during testing)
+      
+      // Calculate dynamic progress bar positioning (same logic as preview)
+      const imageWidth = parseInt(imageSizeValue);
+      const imageLeftMargin = parseInt(imagePaddingValue);
+      const progressLeft = (imageLeftMargin + imageWidth + 20) * scale; // 20px spacing after image
+      const totalWidth = 900 * scale; // Total frame width (scaled)
+      const visualizerSpace = 350 * scale; // Increased space reserved for larger visualizer (scaled)
+      const progressWidth = totalWidth - progressLeft - visualizerSpace - (40 * scale); // 40px margin (scaled)
+      
       // emit a CSS file matching css/04-NowPlaying-F4-Styles.css
       return `
 /* F4 Now-Playing frame styles (generated by editor) */
 :root{
-  --f4-width: ${1800};
-  --f4-height: ${150};
+  --f4-width: ${900 * scale};
+  --f4-height: ${75 * scale};
   --highlight: hsl(${colorValue}, 82%, 58%);
   --font-main: "proxima-nova", sans-serif;
   --scroll-extra: 40;
   --scroll-start-offset: 30;
-  --visualizer-opacity: 0.7;
-  --progress-width-px: ${450}px;
-  --progress-left-px: ${0}px;
+  --visualizer-opacity: ${visualizerOpacityValue / 100};
+  --progress-width-px: ${Math.max(150 * scale, progressWidth)}px;
+  --progress-left-px: ${progressLeft}px;
   --text-left-px: ${0}px;
   --text-start-offset: ${0}px;
 }
@@ -125,11 +186,11 @@ html,body{ margin:0; padding:0; height:100%; font-family:var(--font-main); backg
 
 #background{ position:relative; width:var(--f4-width); min-width:var(--f4-width); max-width:var(--f4-width); height:var(--f4-height); background-image: url('../static_assets/Frame4.png'); background-repeat: no-repeat; background-position: center; background-size: contain; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:0; overflow:visible; }
 
-#visualizer{ position:absolute; right:-120px; top:0px; width:1430px; height:150px; object-fit:cover; opacity:var(--visualizer-opacity); pointer-events:none; z-index:2; }
+#visualizer{ position:absolute; right:-144px; top:50%; transform:translateY(-50%); width:${1287 * scale}px; height:${135 * scale}px; object-fit:cover; opacity:var(--visualizer-opacity); pointer-events:none; z-index:2; }
 
-#progress-container{ position:relative; width:var(--progress-width-px); margin-left:var(--progress-left-px); height:8px; margin-top:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; z-index:45; }
+#progress-container{ position:relative; width:var(--progress-width-px); margin-left:var(--progress-left-px); height:${8 * scale}px; margin-top:${8 * scale}px; background:rgba(255,255,255,0.06); border-radius:${4 * scale}px; overflow:hidden; z-index:45; }
 
-#progress-bar{ width:0%; height:100%; background:linear-gradient(90deg,var(--highlight), #8fe); transition: width 0.1s linear; }
+#progress-bar{ width:0%; height:100%; background:linear-gradient(90deg,var(--highlight), #8fe); transition: width 0.1s linear; border-radius:${4 * scale}px; }
 
 #image{ width:120px; height:120px; object-fit:cover; border-radius:4px; display:block; margin-left:20px; z-index:40; }
 
@@ -174,7 +235,7 @@ html,body{ margin:0; padding:0; height:100%; font-family:var(--font-main); backg
       }, 0);
     }
 
-[artistSize, songSize, spacing, color, imageSizeSlider, contentPaddingSlider, imagePaddingSlider].forEach((slider) => {
+[artistSize, songSize, spacing, color, imageSizeSlider, contentPaddingSlider, imagePaddingSlider, visualizerOpacitySlider].forEach((slider) => {
   slider.addEventListener("input", (e) => {
     if (e.target === artistSize) artistSizeValue = e.target.value;
     if (e.target === songSize) songSizeValue = e.target.value;
@@ -183,6 +244,7 @@ html,body{ margin:0; padding:0; height:100%; font-family:var(--font-main); backg
     if (e.target === imageSizeSlider) imageSizeValue = e.target.value;
     if (e.target === contentPaddingSlider) contentPaddingValue = e.target.value;
     if (e.target === imagePaddingSlider) imagePaddingValue = e.target.value;
+    if (e.target === visualizerOpacitySlider) visualizerOpacityValue = e.target.value;
     applyPreview();
   });
 });
