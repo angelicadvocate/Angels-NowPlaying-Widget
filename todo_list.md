@@ -2,7 +2,36 @@
 
 This document outlines suggested improvements, potential issues, and future development ideas for the Angels-NowPlaying-Widget project.
 
-## 🔴 Critical Issues
+## � Current Development Status (October 2025)
+
+### Recently Completed Work
+- ✅ **Normalize F2 runtime HTML** to use `.text-clip` — complete
+- ✅ **Fix F3 scroller slowdown** — rewrote scroller to use transform + requestAnimationFrame and updated reveal logic
+- ✅ **Revert temporary debug values** — removed `data-debug-scroller` usage and debug console output from `js/common.js`. Backup `js/common.js.bak` retained
+- ✅ **Polish `js/common.js`** and clean debug logs — completed
+- ✅ **Smoke-test F1–F4** — user confirmed F1–F4 tested and working in OBS
+
+### 🎯 **IMMEDIATE TOP PRIORITY**
+**Test editor `generateCSS()` end-to-end for frames F1–F4** (manual integration test):
+- Open each editor (F1–F4), generate CSS, download the file
+- Replace the corresponding file in `css/` with the downloaded CSS  
+- Load the matching HTML frame in OBS (or a local static server + browser) and verify:
+  - Text displays correctly and long titles scroll using the JS scroller
+  - Progress bar updates and artwork loads
+  - No console errors related to missing classes or CSS variables
+- Record any mismatches (file name, missing class names, different variable names) and file small follow-up fixes
+
+### 🔄 **IN PROGRESS**
+- Update editor `generateCSS()` to emit CSS that matches the runtime frame structure (use `.text-clip`, `.text-row`, `.text-inner`, and the runtime variable names) so downloaded CSS works with `js/common.js`
+
+### 📝 **CURRENT DEV NOTES**
+- The active runtime JS is `js/common.js`. A backup with debug traces is saved as `js/common.js.bak` in the same folder
+- Per-frame tuning variables are located in `css/*-Styles.css` (notably `--scroll-extra` and `--scroll-start-offset`)
+- OBS file:// behavior varies by environment; for local browser testing, prefer running a static HTTP server
+
+---
+
+## �🔴 Critical Issues
 
 ### Missing Template Files
 - **F4 (04-NowPlaying-F4.html)** - File is empty (0 bytes)
@@ -90,6 +119,13 @@ function goBack() {
 3. **Consider using hash-based routing** as an alternative navigation method
 
 ## 🟡 Medium Priority Improvements
+
+### Tasks from Active Development
+- **Add placeholder HTML files** for frames 5–7 that display `static_assets/coming-soon.png`
+- **Run lint/static checks** and address obvious DOM-query/usability issues in `js/common.js`
+- **Add per-frame JSON configs** to make `js/common.js` fully declarative
+- **Add automated visual regression tests** (requires serving over HTTP during test runs)
+- **Clean up backup files** — remove `js/common.js.bak` or move it to an `archive/` folder when no longer needed
 
 ### Code Duplication
 
@@ -514,7 +550,32 @@ Thumbs.db
 - Maintain backward compatibility with existing user setups
 - Consider adding version numbers to releases for easier support
 
+## 🎯 Immediate Next Steps
+
+Based on recent development work, the recommended action plan is:
+
+1. **Run the Top priority integration test** for F1–F4 and file any mismatches as issues
+2. **When editor `generateCSS()` is stable**, consider adding a small automated test harness (optional manual script) to exercise the download-and-verify flow
+3. **Address critical missing files** for F4-F7 to prevent broken browser sources
+4. **Standardize scaling implementation** across all editors for consistent preview behavior
+
 ---
 
 **Last Updated:** 2025-10-26  
 **Version:** Based on repository version 0.3.4
+
+
+#########################################################################################
+BELOW THIS LINE FOR COMPLETED TASKS ONLY
+#########################################################################################
+Please be sure to add date, completed tag, github:[username], and version number change if needed
+(see example below for formatting example)
+
+---------------------------------------------------------------------------------
+- [X] **{MAIN TASK NAME/TITLE}** ✨ *COMPLETED* github:AngelicAdvocate v0.3.4
+  - details for task/feature/improvement
+  - more details for task
+  - etc, etc, etc.
+---------------------------------------------------------------------------------
+
+#########################################################################################
