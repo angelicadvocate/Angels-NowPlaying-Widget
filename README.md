@@ -68,6 +68,19 @@ The widget includes a built-in configuration editor:
 - When you are finished with the changes, click the "save" button and replace the downloaded css file in the "css_files" folder for the widget.
 - If OBS was open when you changed the css file you will have to click the refresh button on the source in OBS.
 
+   How the editor save/download workflow works
+   -----------------------------------------
+   The editor runs purely client-side (no backend). When you click "Save" the editor generates a CSS file and triggers a browser download.
+
+   To apply the downloaded CSS to your running widget:
+   1. Download the generated CSS file (the editor names it like `01-NowPlaying-F1-Styles.css`).
+   2. Replace the existing CSS file in the project's `css/` directory with the downloaded file (for example, overwrite `css/01-NowPlaying-F1-Styles.css`).
+   3. In OBS, open the Browser Source properties for that frame and click the Reload/Refresh button (or disable/enable the source) so OBS picks up the new CSS.
+
+   Notes:
+   - This approach avoids requiring a local webserver; it's manual but reliable for local OBS workflows.
+   - If you'd rather test in a browser outside OBS, run a simple static server (for example `python -m http.server 8000`) and open the editor page from `http://localhost:8000/editor_assets/`.
+
 > 📌 *The editor includes built-in instructions, and future versions will offer improved visuals and installation steps.
 
 ---

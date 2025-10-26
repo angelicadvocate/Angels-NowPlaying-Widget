@@ -21,8 +21,13 @@
       <label class="info" for="imageSize">Album Art Size</label>
       <input type="range" min="40" max="400" value="250" class="slider" id="imageSize">
 
-      <label for="contentPadding" class="info">Text Left Padding</label>
-      <input type="range" min="0" max="50" value="0" class="slider" id="contentPadding">
+  <label for="imageMarginTop" class="info">Image Top Margin</label>
+  <input type="range" min="-100" max="100" value="12" class="slider" id="imageMarginTop">
+
+  <label for="textMarginTop" class="info">Text Top Margin</label>
+  <input type="range" min="-100" max="100" value="-15" class="slider" id="textMarginTop">
+
+  <!-- contentPadding slider removed: editor now centers text for F3 -->
 
       <label for="imagePadding" class="info">Image Left Padding</label>
       <input type="range" min="-50" max="50" value="0" class="slider" id="imagePadding">
@@ -36,14 +41,7 @@
     </section>
 
 <section id="sample-and-save" style="flex: 1;">
-  <div class="slider-group">
-    <label for="imageMarginTop" class="info">Image Top Margin</label>
-    <input type="range" min="-100" max="100" value="12" class="slider" id="imageMarginTop">
-
-    <label for="textMarginTop" class="info" style="display: block; margin-top: 14px;">Text Top Margin</label>
-    <input type="range" min="-100" max="100" value="-15" class="slider" id="textMarginTop">
-
-  </div>
+  <!-- moved image/text margin sliders to left controls -->
 
   <div id="sample">
     <div id="background">
@@ -73,16 +71,14 @@
     const songEl = document.getElementById("song");
     const image = document.getElementById('image');
     const imageSizeSlider = document.getElementById('imageSize');
-    const contentPaddingSlider = document.getElementById('contentPadding');
     const imagePaddingSlider = document.getElementById('imagePadding');
     const imageMarginTopSlider = document.getElementById('imageMarginTop');
     
-    const textMarginTopSlider = document.getElementById('textMarginTop');
-    let textMarginTopValue = textMarginTopSlider.value;
+  const textMarginTopSlider = document.getElementById('textMarginTop');
+  let textMarginTopValue = textMarginTopSlider.value;
     
-    let imageMarginTopValue = imageMarginTopSlider.value;
-    let imagePaddingValue = imagePaddingSlider.value;    
-    let contentPaddingValue = contentPaddingSlider.value;
+  let imageMarginTopValue = imageMarginTopSlider.value;
+  let imagePaddingValue = imagePaddingSlider.value;    
     let imageSizeValue = imageSizeSlider.value;
     let artistSizeValue = artistSize.value;
     let songSizeValue = songSize.value;
@@ -111,7 +107,7 @@ function applyPreview() {
   image.style.width = imageSizeValue + "px";
   image.style.height = imageSizeValue + "px";
   const content = document.getElementById('content');
-  content.style.padding = `0 20px 0 ${contentPaddingValue}px`;
+  // editor preview centers text for F3; content padding control removed
   const imageWrapper = document.getElementById('image-wrapper');
   imageWrapper.style.marginLeft = imagePaddingValue + "px";
   imageWrapper.style.marginTop = imageMarginTopValue + "px";
@@ -121,67 +117,82 @@ function applyPreview() {
 
 
     function generateCSS() {
+      // Map editor sliders to F3 runtime CSS variables and structure.
       return `
 /* /static css placeholder/ */
 
-#background {
-  justify-content: flex-start;
-  background-color: #121212;
-  width: 350px;
-  height: 70px;
-  overflow: hidden;
-  margin-left: -500px;
-  padding: 0;
-}
-
-#smalldiv {
-  height: 70px;
-  overflow: hidden;
-  margin-top: -70px;
-  margin-left: 70px;
-  padding: 0;
-}
-
-#image {
-  width: 70px;
-  height: 70px;
-  padding: 0;
-  margin-left: 0;
-  position: relative;
-  z-index: 5;
+:root {
+  --highlight: hsl(${colorValue}, 90%, 60%);
+  --font-main: "proxima-nova", sans-serif;
+  --f3-image-margin-left: ${imagePaddingValue};
+  --f3-image-margin-bottom: ${8};
+  --f3-content-padding-top: ${0};
+  --f3-content-padding-side: ${0};
+  --f3-text-margin-top: ${textMarginTopValue};
+  --f3-text-margin-bottom: ${85};
+  --f3-progress-bottom: ${85};
+  --f3-text-margin-left: ${0};
+  --f3-text-box-width: ${360};
+  --f3-progress-scale: 0.9;
 }
 
 body {
-  background-color: #ffffff;
-  padding: 0 !important;
-  margin: 0 !important;
+  background: #ebebeb;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-#artist {
-  color: hsl(${colorValue}, 100%, 68%);
-  text-transform: uppercase;
-  font-family: "proxima-nova", sans-serif;
-  margin-top: 5px;
-  margin-left: 7px;
-  font-weight: 600;
-  font-size: ${artistSizeValue}px;
-  margin-bottom: ${spacingValue}px;
-  display: inline-block;
+#background {
+  position: relative;
+  width: 360px;
+  min-width: 360px;
+  max-width: 360px;
+  height: 640px;
+  background-image: url('../static_assets/Frame3.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  overflow: visible;
+  z-index: 1;
 }
 
-#song {
-  color: #ffffff;
-  font-size: ${songSizeValue}px;
-  font-family: "proxima-nova", sans-serif;
-  margin-top: -5px;
-  margin-left: 7px;
-  font-weight: bold;
-  display: inline-block;
+#image {
+  width: ${imageSizeValue * scale}px;
+  height: ${imageSizeValue * scale}px;
+  object-fit: cover;
+  margin-top: ${76 * scale}px;
+  margin-left: calc(var(--f3-image-margin-left) * 1px);
+  margin-bottom: calc(var(--f3-image-margin-bottom) * 1px);
+  padding-top: 0px;
+  border-radius: 16px;
+  display: block;
 }
 
-p {
-  white-space: nowrap;
-}
+#content { width:100%; height:100%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:calc(var(--f3-content-padding-top) * 1px) calc(var(--f3-content-padding-side) * 1px); overflow:hidden; }
+
+#text-box { display:flex; flex-direction:column; justify-content:center; min-width:0; flex-grow:1; overflow:hidden; text-align:center; --scroll-extra:40px; --scroll-start-offset:40px; }
+
+#text-box { margin-top: calc(var(--f3-text-margin-top) * 1px); margin-right:0; margin-left: calc(var(--f3-text-margin-left) * 1px); margin-bottom: calc(var(--f3-text-margin-bottom) * 1px); position:relative; z-index:10; width: calc(var(--f3-text-box-width) * 1px); box-sizing:border-box; display:block; }
+
+#artist { text-transform: uppercase; font-weight: 600; font-size: ${artistSizeValue * scale}px; margin-bottom: ${spacingValue * scale}px; color: var(--highlight); }
+
+#song { font-weight: bold; font-size: ${songSizeValue * scale}px; color: white; margin: 0; }
+
+p { white-space: nowrap; }
+
       `.trim();
     }
 
@@ -199,15 +210,14 @@ p {
       }, 0);
     }
 
-[artistSize, songSize, spacing, color, imageSizeSlider, contentPaddingSlider, imagePaddingSlider, imageMarginTopSlider, textMarginTopSlider].forEach((slider) => {
+[artistSize, songSize, spacing, color, imageSizeSlider, imagePaddingSlider, imageMarginTopSlider, textMarginTopSlider].forEach((slider) => {
   slider.addEventListener("input", (e) => {
     if (e.target === artistSize) artistSizeValue = e.target.value;
     if (e.target === songSize) songSizeValue = e.target.value;
     if (e.target === spacing) spacingValue = e.target.value;
     if (e.target === color) colorValue = e.target.value;
-    if (e.target === imageSizeSlider) imageSizeValue = e.target.value;
-    if (e.target === contentPaddingSlider) contentPaddingValue = e.target.value;
-    if (e.target === imagePaddingSlider) imagePaddingValue = e.target.value;
+  if (e.target === imageSizeSlider) imageSizeValue = e.target.value;
+  if (e.target === imagePaddingSlider) imagePaddingValue = e.target.value;
     if (e.target === imageMarginTopSlider) imageMarginTopValue = e.target.value;
     if (e.target === textMarginTopSlider) textMarginTopValue = e.target.value;
     applyPreview();

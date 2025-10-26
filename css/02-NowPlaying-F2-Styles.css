@@ -64,7 +64,13 @@ body {
 #content {
   flex: 1;
   overflow: hidden;
-  padding: 0 40px 0 30px;
+  /*
+    The right padding here effectively shifts where text begins inside the
+    content area. Adjusting this value moves the visual entry point for
+    scrolling text to line up with the PNG frame edges. Useful to tune per
+    frame (e.g. F4 may need a different value).
+  */
+  padding: 0 0px 0 30px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -80,7 +86,21 @@ body {
   flex-grow: 1;
   overflow: hidden;
   text-align: left;
+  /* Extra horizontal space to include for scrolling calculations (px) */
+  --scroll-extra: 0px;
+  /* How far off-screen the text starts before scrolling (px) */
+  --scroll-start-offset: 0px;
 }
+
+/* Ensure the new .text-clip structure is constrained like the old .text-box */
+.text-clip{
+  width:100%;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.text-row{ display:block; }
+.text-inner{ display:inline-block; white-space:nowrap; }
 
 #artist,
 #song {

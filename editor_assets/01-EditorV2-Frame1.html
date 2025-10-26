@@ -106,9 +106,12 @@ function applyPreview() {
 
 
     function generateCSS() {
+      // Generate CSS matching css/01-NowPlaying-F1-Styles.css structure.
+      // The editor preview uses a `scale` factor to keep UI compact; the
+      // runtime files use absolute pixel values. Multiply slider values by
+      // scale to produce equivalent final sizes.
       return `
 /* /static css placeholder/ */
-
 
 :root {
   --highlight: hsl(${colorValue}, 82%, 58%);

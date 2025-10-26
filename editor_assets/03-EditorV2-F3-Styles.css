@@ -1,6 +1,8 @@
 :root {
   --highlight: hsl(221, 82%, 58%);
   --font-main: "proxima-nova", sans-serif;
+  /* Editor preview tuning */
+  --editor-preview-padding-top: 140; /* px - increase to move preview down */
 }
 
 /* Reset and base styles */
@@ -86,6 +88,8 @@ body {
   align-items: center;
   width: 100%;
   text-align: left;
+  /* padding-top allows visual vertical centering of the preview area in the editor */
+  padding-top: calc(var(--editor-preview-padding-top) * 1px);
 }
 
 
@@ -119,15 +123,16 @@ body {
   z-index: 5;
 }
 
-/* Flex container for image + text */
+/* Flex container for image + text (centered text for F3 preview) */
 #content {
   flex: 1;
   overflow: hidden;
-  padding: 0 20px 0 30px;
+  padding: 0 20px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 }
 
 /* Album art image */
@@ -140,7 +145,7 @@ body {
   margin-top: var(--image-margin-top, 0px); /* Default to 0, will be set dynamically */
 }
 
-/* Text container next to album art */
+/* Text container under the album art (centered) */
 #text-box {
   display: flex;
   flex-direction: column;
@@ -148,7 +153,7 @@ body {
   min-width: 0;
   flex-grow: 1;
   overflow: hidden;
-  text-align: left;
+  text-align: center;
 }
 
 #text-box p {

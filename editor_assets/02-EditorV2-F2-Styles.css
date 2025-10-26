@@ -141,7 +141,8 @@ body {
   text-overflow: ellipsis;
 }
 
-#artist, #song {
+/* normalize naming: use .text-clip class in editor preview to match runtime frames */
+.text-clip, .text-box {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
