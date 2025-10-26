@@ -288,7 +288,7 @@ Thumbs.db
 **Additional Glassmorphism Variations:**
 
 1. **F5: Full-Width Glass Banner**
-   - Wide glassmorphic card across bottom of screen
+   - Wide glass-morphic card across bottom of screen
    - Blurred background using album artwork
    - Frosted glass effect with backdrop-filter
    - Minimal controls (harder to customize due to nature of effect)
